@@ -2,15 +2,11 @@ package com.chumbokit.doctor.project_final_years;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,17 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    String Name, email, password;
     private RelativeLayout rlayout;
     private Animation animation;
     private EditText Username, Email, Password, reTypePassword;
-
-
-
     private Button mRegisterbtn;
-
     private  FirebaseAuth mAuth;
     private DatabaseReference mdatabase;
-    String Name,email,password;
     private ProgressDialog mDialog;
 
 
@@ -58,13 +50,12 @@ public class RegisterActivity extends AppCompatActivity {
         Email = findViewById(R.id.etUserEmail);
         Password = findViewById(R.id.etUserPassword);
 
-
         rlayout = findViewById(R.id.rlayout);
         animation = AnimationUtils.loadAnimation(this, R.anim.uptodowndiagonal);
         rlayout.setAnimation(animation);
         mAuth = FirebaseAuth.getInstance();
         mDialog = new ProgressDialog(this);
-        mdatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mdatabase = FirebaseDatabase.getInstance().getReference().child("employee");
 
         mRegisterbtn=findViewById(R.id.SignUp);
         mRegisterbtn.setOnClickListener(new View.OnClickListener() {
@@ -118,15 +109,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
     //Email verification code using FirebaseUser object and using isSucccessful()function.
     private void sendEmailVerification() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user!=null){
             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this,"Check your Email for verification",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
+                        mdatabase.child(user.getUid()).child("username").setValue(Name);
                         FirebaseAuth.getInstance().signOut();
                     }
                 }
@@ -136,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void OnAuth(FirebaseUser user) {
        // createAnewUser(user.getUid());
-        Toast.makeText(RegisterActivity.this,"Authuser",Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, "Verify Your Email Address", Toast.LENGTH_SHORT).show();
     }
 
    /* private void createAnewUser(String uid) {

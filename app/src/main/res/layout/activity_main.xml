@@ -21,7 +21,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="40dp"
         android:elevation="5dp"
-        android:text="Welcome to Dentist Point"
+        android:text="Welcome to Employee Tacker"
         android:textColor="@color/colorWhite"
         android:textSize="17sp" />
 
@@ -29,23 +29,23 @@
         android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDesc"
-        android:transitionName="tvLogin"
         android:layout_alignLeft="@+id/tvDesc"
+        android:layout_below="@+id/tvDesc"
         android:elevation="5dp"
         android:text="Login"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:transitionName="tvLogin" />
 
     <ImageView
         android:id="@+id/circle1"
         android:layout_width="134dp"
         android:layout_height="134dp"
-        android:layout_below="@+id/bgHeader"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="-80dp"
+        android:layout_below="@+id/bgHeader"
         android:layout_marginRight="-100dp"
+        android:layout_marginTop="-80dp"
         android:src="@drawable/circletransparant" />
 
     <ImageView
@@ -53,18 +53,18 @@
         android:layout_width="134dp"
         android:layout_height="134dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="-100dp"
         android:layout_marginBottom="50dp"
+        android:layout_marginLeft="-100dp"
         android:src="@drawable/circletransparant" />
 
     <ImageView
         android:id="@+id/circle3"
         android:layout_width="182dp"
         android:layout_height="182dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="-80dp"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="-30dp"
+        android:layout_marginRight="-80dp"
         android:src="@drawable/circle" />
 
     <ImageView
@@ -72,8 +72,8 @@
         android:layout_width="134dp"
         android:layout_height="134dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="-50dp"
         android:layout_marginBottom="-50dp"
+        android:layout_marginRight="-50dp"
         android:layout_toLeftOf="@+id/circle3"
         android:src="@drawable/circletransparant" />
 
@@ -140,12 +140,12 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cv"
                 android:layout_alignLeft="@+id/cv"
                 android:layout_alignRight="@+id/cv"
+                android:layout_below="@+id/cv"
                 android:layout_marginLeft="35dp"
-                android:layout_marginTop="-50dp"
                 android:layout_marginRight="35dp"
+                android:layout_marginTop="-50dp"
                 android:elevation="10dp">
 
                 <Button
@@ -161,10 +161,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/cv"
                 android:layout_alignRight="@+id/cv"
-                android:layout_marginTop="-20dp"
+                android:layout_alignTop="@+id/cv"
                 android:layout_marginRight="-20dp"
+                android:layout_marginTop="-20dp"
                 android:elevation="10dp">
 
                 <ImageButton
@@ -189,12 +189,12 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvForgot"
                 android:layout_alignLeft="@+id/cv"
                 android:layout_alignRight="@+id/cv"
+                android:layout_below="@+id/tvForgot"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/bt_uifb"
                 android:drawableLeft="@drawable/logofacebook"
                 android:paddingLeft="20dp"

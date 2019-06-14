@@ -9,6 +9,8 @@
     <string name="my_profile">My Profile</string>
     <string name="create_appointment">Create Appointment</string>
     <string name="my_appointment">My Appointment</string>
-    <string name="my_prescription">My Prescription</string>
+    <string name="Employee">Employee Details</string>
+    <string name="my_prescription">Employee Details</string>
     <string name="title_activity_create_appointment">CreateAppointment</string>
+    <string name="title_activity_employees">employees</string>
 </resources>
