@@ -18,7 +18,7 @@ import android.view.View;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private CardView profile, myAppointment, createAppointment, myPrescription;
+    private CardView profile, client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +27,8 @@ public class HomeActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         profile = findViewById(R.id.profile);
-        myAppointment = findViewById(R.id.myAppointmnet);
-        createAppointment = findViewById(R.id.createAppointmnet);
-        myPrescription = findViewById(R.id.myPrescription);
+
+        client = findViewById(R.id.client);
 
         setSupportActionBar(toolbar);
         profile.setOnClickListener(new View.OnClickListener() {
@@ -45,22 +44,11 @@ public class HomeActivity extends AppCompatActivity
                 dialog.show();
             }
         });
-        myAppointment.setOnClickListener(new View.OnClickListener() {
+
+        client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, MyAppointment.class));
-            }
-        });
-        createAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, CreateAppointment.class));
-            }
-        });
-        myPrescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, MyPrescription.class));
+                startActivity(new Intent(HomeActivity.this, employees.class));
             }
         });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

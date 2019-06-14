@@ -18,11 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,30 +26,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String userEmail = "";
+    public static final String TAG = "LOGIN";
+    String email, Password;
     private ImageButton btRegister;
     private TextView tvLogin;
-
     private EditText Email;
     private EditText password;
     private RequestQueue requestQueue;
-
-
-    private   Button LogInButton, RegisterButton;
+    private Button LogInButton, RegisterButton;
     private FirebaseAuth mAuth;
-    private  FirebaseAuth.AuthStateListener mAuthListner;
+    private FirebaseAuth.AuthStateListener mAuthListner;
     private FirebaseUser mUser;
-    String email, Password;
     private ProgressDialog dialog;
-
-    public static final String userEmail="";
-
-    public static final String TAG="LOGIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                }
-                else
-                {
-                    Log.d(TAG,"AuthStateChanged:Logout");
+                } else {
+                    Log.d(TAG, "AuthStateChanged:Logout");
                 }
 
             }
@@ -128,25 +113,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void checkIfEmailVerified(){
-        FirebaseUser users=FirebaseAuth.getInstance().getCurrentUser();
-        boolean emailVerified=users.isEmailVerified();
-        if(!emailVerified){
-            Toast.makeText(this,"Verify the Email Id",Toast.LENGTH_SHORT).show();
+    private void checkIfEmailVerified() {
+        FirebaseUser users = FirebaseAuth.getInstance().getCurrentUser();
+        boolean emailVerified = users.isEmailVerified();
+        if (!emailVerified) {
+            Toast.makeText(this, "Verify the Email Id", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
             mAuth.signOut();
             finish();
-        }
-        else {
-            Email.getText().clear();
+        } else {
 
-            password.getText().clear();
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             // Sending Email to Dashboard Activity using intent.
-            intent.putExtra(userEmail,email);
+            intent.putExtra(userEmail, email);
             startActivity(intent);
-            Toast.makeText(this,"Successfully Login!!!!!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Successfully Login!!!!!", Toast.LENGTH_SHORT).show();
 
         }
     }
