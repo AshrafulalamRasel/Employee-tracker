@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Employee-tracker.iml" filepath="$PROJECT_DIR$/Employee-tracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/projectFinalYears.iml" filepath="$PROJECT_DIR$/projectFinalYears.iml" />
+      <module fileurl="file://P:\AndroidStudio\DoctorAppointmentApp\Employee-tracker\projectFinalYears.iml" filepath="P:\AndroidStudio\DoctorAppointmentApp\Employee-tracker\projectFinalYears.iml" />
     </modules>
   </component>
 </project>
