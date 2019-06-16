@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">DoctorAppointment</string>
+    <string name="app_name">Employee Tracker</string>
     <string name="title_activity_home">Home</string>
+    <string name="title_activity_call_logs">Home</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -13,4 +14,5 @@
     <string name="my_prescription">Employee Details</string>
     <string name="title_activity_create_appointment">CreateAppointment</string>
     <string name="title_activity_employees">employees</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

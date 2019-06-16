@@ -1,13 +1,17 @@
 package com.chumbokit.doctor.project_final_years.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chumbokit.doctor.project_final_years.CallLogs.CallLogs;
+import com.chumbokit.doctor.project_final_years.MapsActivity;
 import com.chumbokit.doctor.project_final_years.R;
 
 
@@ -39,6 +43,24 @@ public class EmployeesList extends ArrayAdapter<String> {
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
+        Button map= rowView.findViewById(R.id.map);
+        Button callDtails= rowView.findViewById(R.id.callHistory);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        callDtails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CallLogs.class);
+                context.startActivity(intent);
+            }
+        });
 
         titleText.setText(maintitle[position]);
         imageView.setImageResource(imgid[position]);
