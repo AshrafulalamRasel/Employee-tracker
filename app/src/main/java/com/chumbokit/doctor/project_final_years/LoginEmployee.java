@@ -56,7 +56,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         requestQueue = Volley.newRequestQueue(this);
         btRegister.setOnClickListener(this);
         LogInButton = findViewById(R.id.Login);
-        loginButtonEmployee = findViewById(R.id.employee);
+        loginButtonEmployee = findViewById(R.id.manager);
         dialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -183,4 +183,4 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
 
 
     }
-}
+
