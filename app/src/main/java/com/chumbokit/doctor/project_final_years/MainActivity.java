@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText Email;
     private EditText password;
     private RequestQueue requestQueue;
-    private Button LogInButton, RegisterButton;
+    private Button LogInButton, RegisterButton,employeeLogin;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListner;
     private FirebaseUser mUser;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestQueue = Volley.newRequestQueue(this);
         btRegister.setOnClickListener(this);
         LogInButton = findViewById(R.id.Login);
+        employeeLogin=findViewById(R.id.employeeLogin);
 
         dialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -77,6 +78,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userSign();
 
 
+            }
+        });
+        employeeLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LoginEmployee.class);
+                startActivity(intent);
             }
         });
     }
