@@ -5,12 +5,12 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ListView;
 
 import com.chumbokit.doctor.project_final_years.R;
@@ -45,7 +45,6 @@ public class CallLogs extends AppCompatActivity {
     private void loadLogs() {
         LogsManager logsManager = new LogsManager(this);
         List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
-
         LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
         logList.setAdapter(logsAdapter);
     }

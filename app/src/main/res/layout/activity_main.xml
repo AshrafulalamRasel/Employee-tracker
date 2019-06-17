@@ -32,7 +32,7 @@
         android:layout_alignLeft="@+id/tvDesc"
         android:layout_below="@+id/tvDesc"
         android:elevation="5dp"
-        android:text="Login"
+        android:text="Manager Login"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -187,7 +187,7 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/employeeLogin"
+                android:id="@+id/loginEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/cv"

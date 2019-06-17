@@ -15,4 +15,6 @@
     <string name="title_activity_create_appointment">CreateAppointment</string>
     <string name="title_activity_employees">employees</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_login_employee">LoginEmployee</string>
+    <string name="title_activity_employee_home">EmployeeHome</string>
 </resources>
