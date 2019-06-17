@@ -1,5 +1,6 @@
 package com.chumbokit.doctor.project_final_years;
 
+
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -41,10 +42,13 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
     private FirebaseUser mUser;
     private ProgressDialog dialog;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_employee);
+
         btRegister = findViewById(R.id.btRegister);
         tvLogin = findViewById(R.id.tvLogin);
         Email = findViewById(R.id.userName);
@@ -177,4 +181,6 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
     }
 
 
+
+    }
 }
