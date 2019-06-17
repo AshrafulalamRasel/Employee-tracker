@@ -32,7 +32,7 @@
         android:layout_alignLeft="@+id/tvDesc"
         android:layout_below="@+id/tvDesc"
         android:elevation="5dp"
-        android:text="Manager Login"
+        android:text="Employee Login"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -187,7 +187,7 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/employee"
+                android:id="@+id/manager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/cv"
@@ -199,7 +199,7 @@
                 android:background="@drawable/bt_uifb"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="LOGIN Employee"
+                android:text="LOGIN Manager"
                 android:textColor="@color/colorPurple" />
         </RelativeLayout>
     </ScrollView>

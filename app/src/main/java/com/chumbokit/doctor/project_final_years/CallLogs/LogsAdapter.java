@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chumbokit.doctor.project_final_years.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -24,7 +28,11 @@ import java.util.List;
 public class LogsAdapter extends ArrayAdapter<LogObject> {
     List<LogObject> logs;
     Context context;
+    ;
     int resource;
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee");
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     public LogsAdapter(Context context, int resource, List<LogObject> callLogs) {
         super(context, resource, callLogs);
         this.logs = callLogs;
@@ -61,10 +69,14 @@ public class LogsAdapter extends ArrayAdapter<LogObject> {
         Date date1 = new Date(log.getDate());
 
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.ERA_FIELD, DateFormat.SHORT);
+
         phone.setText(log.getContactName());
         duration.setText(log.getCoolDuration());
         date.setText(dateFormat.format(date1));
+        mLocationDatabaseReference.child(firebaseUser.getUid()).child("callLogs").push().child("phone").setValue(log.getContactName() + "\n" + log.getCoolDuration() + "\n" + dateFormat.format(date1));
 
+
+        //Toast.makeText(LogsAdapter.this,""+ log.getCoolDuration(), Toast.LENGTH_SHORT).show();
         switch (log.getType()) {
 
             case LogsManager.INCOMING:

@@ -26,8 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class LoginEmployee extends AppCompatActivity implements View.OnClickListener {
     public static final String userEmail = "";
     public static final String TAG = "LOGIN";
     String email, Password;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login_employee);
         btRegister = findViewById(R.id.btRegister);
         tvLogin = findViewById(R.id.tvLogin);
         Email = findViewById(R.id.userName);
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (mUser != null) {
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(LoginEmployee.this, EmployeeHome.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 } else {
@@ -79,24 +78,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        loginButtonEmployee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LoginEmployee.class);
-                startActivity(intent);
-
-            }
-        });
+//        loginButtonEmployee.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(LoginEmployee.this, MainActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
+//    }
     }
 
     private void userSign() {
         email = Email.getText().toString().trim();
         Password = password.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(MainActivity.this, "Enter the correct Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginEmployee.this, "Enter the correct Email", Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(Password)) {
-            Toast.makeText(MainActivity.this, "Enter the correct password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginEmployee.this, "Enter the correct password", Toast.LENGTH_SHORT).show();
             return;
         }
         dialog.setMessage("Loging in please wait...");
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!task.isSuccessful()) {
                     dialog.dismiss();
 
-                    Toast.makeText(MainActivity.this, "Login not successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginEmployee.this, "Login not successfull", Toast.LENGTH_SHORT).show();
 
                 } else {
                     dialog.dismiss();
@@ -126,13 +126,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean emailVerified = users.isEmailVerified();
         if (!emailVerified) {
             Toast.makeText(this, "Verify the Email Id", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginEmployee.this, LoginEmployee.class);
             startActivity(intent);
             mAuth.signOut();
             finish();
         } else {
 
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            Intent intent = new Intent(LoginEmployee.this, EmployeeHome.class);
             // Sending Email to Dashboard Activity using intent.
             intent.putExtra(userEmail, email);
             startActivity(intent);
@@ -160,17 +160,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        MainActivity.super.finish();
+        LoginEmployee.super.finish();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         if (v == btRegister) {
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(LoginEmployee.this, RegistrationEmployee.class);
             Pair[] pairs = new Pair[1];
             pairs[0] = new Pair<View, String>(tvLogin, "tvLogin");
-            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(LoginEmployee.this, pairs);
             startActivity(intent, activityOptions.toBundle());
         }
         Log.e("ffdghdf", "Click succefull");

@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         rlayout.setAnimation(animation);
         mAuth = FirebaseAuth.getInstance();
         mDialog = new ProgressDialog(this);
-        mdatabase = FirebaseDatabase.getInstance().getReference().child("employee");
+        mdatabase = FirebaseDatabase.getInstance().getReference().child("manager");
 
         mRegisterbtn=findViewById(R.id.SignUp);
         mRegisterbtn.setOnClickListener(new View.OnClickListener() {

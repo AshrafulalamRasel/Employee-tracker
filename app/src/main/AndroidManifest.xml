@@ -75,7 +75,17 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".CallLogs.CallLogs"></activity>
+        <activity android:name=".CallLogs.CallLogs" />
+        <activity
+            android:name=".LoginEmployee"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".RegistrationEmployee"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".EmployeeHome"
+            android:label="@string/title_activity_employee_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
