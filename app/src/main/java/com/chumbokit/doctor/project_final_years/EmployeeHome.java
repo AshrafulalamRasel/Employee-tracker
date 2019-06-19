@@ -38,8 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class EmployeeHome extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class EmployeeHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "CurrentLocationApp";
     private static final int READ_LOGS = 725;
     Button saveLocationToFirebase;
