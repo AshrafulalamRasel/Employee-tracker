@@ -1,9 +1,10 @@
 package com.chumbokit.doctor.project_final_years;
 
-import android.Manifest;
 import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -18,14 +19,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.chumbokit.doctor.project_final_years.CallLogs.LogObject;
+import com.chumbokit.doctor.project_final_years.CallLogs.LogsAdapter;
+import com.chumbokit.doctor.project_final_years.CallLogs.LogsManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,26 +38,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class EmployeeHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "CurrentLocationApp";
-    private static final int READ_LOGS = 725;
-    Button saveLocationToFirebase;
-    double value_lat = 0.0;
-    double value_lng = 0.0;
     private CardView profile;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
     private FirebaseUser firebaseUser;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private FirebaseAuth firebaseAuth;
     private ListView logList;
-    private Runnable logsRunnable;
-    private String[] requiredPermissions = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_CONTACTS};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +60,14 @@ public class EmployeeHome extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         profile = findViewById(R.id.profile);
+        logList = (ListView) findViewById(R.id.LogsList);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee");
+        firebaseAuth = FirebaseAuth.getInstance();
         requestPermission();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +100,8 @@ public class EmployeeHome extends AppCompatActivity
         });
 
         getLocation();
-//
+        loadLogs();
+        mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
     }
 
     //    ------------------------ Real Location------------------------------
@@ -134,17 +134,15 @@ public class EmployeeHome extends AppCompatActivity
     }
 /*----------------------------Call Log------------------------------------*/
 
+    private void loadLogs() {
+        LogsManager logsManager = new LogsManager(this);
+        List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
+        LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
+        logList.setAdapter(logsAdapter);
+
+    }
 
     /*----------------------------------------------Tollbar Code---------------------------------------------------------------*/
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,7 +178,17 @@ public class EmployeeHome extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.signout) {
+            try {
+                firebaseAuth.signOut();
+                Intent intent = new Intent(EmployeeHome.this, LoginEmployee.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
+                startActivity(intent);
+
+            } catch (Exception e) {
+                Log.e("Error", "onClick: Exception " + e.getMessage(), e);
+            }
 
         } else if (id == R.id.nav_share) {
 
@@ -191,5 +199,30 @@ public class EmployeeHome extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        try {
+                            firebaseAuth.signOut();
+                            Intent intent = new Intent(EmployeeHome.this, LoginEmployee.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
+                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
+                            startActivity(intent);
+
+                        } catch (Exception e) {
+                            Log.e("Error", "onClick: Exception " + e.getMessage(), e);
+                        }
+                        finish();
+                    }
+
+                }).create().show();
     }
 }
