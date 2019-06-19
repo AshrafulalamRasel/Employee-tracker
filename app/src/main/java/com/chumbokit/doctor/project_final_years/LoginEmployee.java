@@ -1,13 +1,19 @@
 package com.chumbokit.doctor.project_final_years;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,10 +32,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginEmployee extends AppCompatActivity implements View.OnClickListener {
     public static final String userEmail = "";
     public static final String TAG = "LOGIN";
+    private static final int READ_LOGS = 725;
     String email, Password;
     private ImageButton btRegister;
     private TextView tvLogin;
@@ -41,8 +50,10 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth.AuthStateListener mAuthListner;
     private FirebaseUser mUser;
     private ProgressDialog dialog;
-
-
+    private Runnable logsRunnable;
+    private String[] requiredPermissions = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_CONTACTS};
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mLocationDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,8 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         dialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee");
         mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -67,6 +80,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
                     Intent intent = new Intent(LoginEmployee.this, EmployeeHome.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+
                 } else {
                     Log.d(TAG, "AuthStateChanged:Logout");
                 }
@@ -82,15 +96,19 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
 
             }
         });
-//        loginButtonEmployee.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(LoginEmployee.this, MainActivity.class);
-//                startActivity(intent);
-//
-//            }
-//        });
-//    }
+        logsRunnable = new Runnable() {
+            @Override
+            public void run() {
+                loadLogs();
+            }
+        };
+
+        // Checking for permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkPermissionToExecute(requiredPermissions, READ_LOGS, logsRunnable);
+        } else {
+            logsRunnable.run();
+        }
     }
 
     private void userSign() {
@@ -140,6 +158,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
             // Sending Email to Dashboard Activity using intent.
             intent.putExtra(userEmail, email);
             startActivity(intent);
+
             Toast.makeText(this, "Successfully Login!!!!!", Toast.LENGTH_SHORT).show();
 
         }
@@ -180,7 +199,60 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         Log.e("ffdghdf", "Click succefull");
     }
 
-
-
+    //Permission
+    private void loadLogs() {
+//        LogsManager logsManager = new LogsManager(this);
+//        List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
+//        LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
+//        logList.setAdapter(logsAdapter);
+        Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_LONG).show();
     }
+
+    // A method to check if a permission is granted then execute tasks depending on that particular permission
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkPermissionToExecute(String permissions[], int requestCode, Runnable runnable) {
+
+        boolean logs = ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED;
+        boolean contacts = ContextCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED;
+
+        if (logs || contacts) {
+            requestPermissions(permissions, requestCode);
+        } else {
+            runnable.run();
+        }
+    }
+
+    @Override
+    @TargetApi(Build.VERSION_CODES.M)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == READ_LOGS && permissions[0].equals(Manifest.permission.READ_CALL_LOG) && permissions[1].equals(Manifest.permission.READ_CONTACTS)) {
+            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED && grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
+                logsRunnable.run();
+            } else {
+                new android.support.v7.app.AlertDialog.Builder(LoginEmployee.this)
+                        .setMessage("The app needs these permissions to work, Exit?")
+                        .setTitle("Permission Denied")
+                        .setCancelable(false)
+                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                checkPermissionToExecute(requiredPermissions, READ_LOGS, logsRunnable);
+                            }
+                        })
+                        .setNegativeButton("Exit App", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }).show();
+            }
+        }
+    }
+
+
+}
 

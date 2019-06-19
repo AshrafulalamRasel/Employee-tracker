@@ -28,7 +28,6 @@ import java.util.List;
 public class LogsAdapter extends ArrayAdapter<LogObject> {
     List<LogObject> logs;
     Context context;
-    ;
     int resource;
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee");
