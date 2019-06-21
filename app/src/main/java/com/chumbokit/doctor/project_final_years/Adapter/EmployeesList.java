@@ -14,6 +14,8 @@ import com.chumbokit.doctor.project_final_years.CallLogs.CallLogs;
 import com.chumbokit.doctor.project_final_years.MapsActivity;
 import com.chumbokit.doctor.project_final_years.R;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by monirozzamanroni on 6/10/2019.
@@ -21,11 +23,11 @@ import com.chumbokit.doctor.project_final_years.R;
 
 public class EmployeesList extends ArrayAdapter<String> {
     private final Activity context;
-    private final String[] maintitle;
-    private final String[] subtitle;
-    private final Integer[] imgid;
+    private final ArrayList<String> maintitle;
+    private final ArrayList<String> subtitle;
+    private final ArrayList<Integer> imgid;
 
-    public EmployeesList(Activity context, String[] maintitle, String[] subtitle, Integer[] imgid) {
+    public EmployeesList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<Integer> imgid) {
         super(context, R.layout.custom_employee_list, maintitle);
         // TODO Auto-generated constructor stub
 
@@ -62,9 +64,9 @@ public class EmployeesList extends ArrayAdapter<String> {
             }
         });
 
-        titleText.setText(maintitle[position]);
-        imageView.setImageResource(imgid[position]);
-        subtitleText.setText(subtitle[position]);
+        titleText.setText(maintitle.get(position));
+        imageView.setImageResource(imgid.get(position));
+        subtitleText.setText(subtitle.get(position));
 
         return rowView;
 

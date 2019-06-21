@@ -27,7 +27,6 @@ public class HomeActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         profile = findViewById(R.id.profile);
-
         client = findViewById(R.id.client);
 
         setSupportActionBar(toolbar);
