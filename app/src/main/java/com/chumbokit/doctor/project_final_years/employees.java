@@ -24,6 +24,10 @@ public class employees extends AppCompatActivity {
     ListView list;
     ArrayList<String> mainName = new ArrayList<>();
     ArrayList<String> subtitle = new ArrayList<>();
+    ArrayList<Double> latList = new ArrayList<>();
+    ArrayList<Double> longList = new ArrayList<>();
+    ArrayList<String> uidList = new ArrayList<>();
+    ArrayList<Boolean> activeStatusList = new ArrayList<>();
     ArrayList<Integer> imgid = new ArrayList<>();
     private ProgressDialog dialog;
 
@@ -57,10 +61,18 @@ public class employees extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         //depending upon what datatype youre using caste to it.
                         String name = (String) snapshot.child("name").getValue();
+                        Double lat = (Double) snapshot.child("location").child("lat").getValue();
+                        Double lng = (Double) snapshot.child("location").child("lng").getValue();
+                        String uid = (String) snapshot.getKey();
+                        Boolean activeStatus = (Boolean) snapshot.child("activeStatus").getValue();
+                        latList.add(lat);
+                        longList.add(lng);
+                        uidList.add(uid);
+                        activeStatusList.add(activeStatus);
                         mainName.add(name);
                         subtitle.add(name);
                         imgid.add(R.drawable.prescription);
-                        EmployeesList adapter = new EmployeesList(employees.this, mainName, subtitle, imgid);
+                        EmployeesList adapter = new EmployeesList(employees.this, mainName, subtitle, imgid, latList, longList, uidList, activeStatusList);
                         list = (ListView) findViewById(R.id.List);
                         list.setAdapter(adapter);
                         dialog.dismiss();
