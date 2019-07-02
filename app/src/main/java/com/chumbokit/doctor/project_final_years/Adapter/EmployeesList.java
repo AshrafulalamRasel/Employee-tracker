@@ -27,7 +27,12 @@ public class EmployeesList extends ArrayAdapter<String> {
     private final ArrayList<String> subtitle;
     private final ArrayList<Integer> imgid;
 
-    public EmployeesList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<Integer> imgid) {
+    private final ArrayList<Double> latList;
+    private final ArrayList<Double> longList;
+    private final ArrayList<String> uidList;
+    private final ArrayList<Boolean> activeStatusList;
+
+    public EmployeesList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<Integer> imgid, ArrayList<Double> latList, ArrayList<Double> longList, ArrayList<String> uidList, ArrayList<Boolean> activeStatusList) {
         super(context, R.layout.custom_employee_list, maintitle);
         // TODO Auto-generated constructor stub
 
@@ -36,9 +41,13 @@ public class EmployeesList extends ArrayAdapter<String> {
         this.subtitle = subtitle;
         this.imgid = imgid;
 
+        this.latList = latList;
+        this.longList = longList;
+        this.uidList = uidList;
+        this.activeStatusList = activeStatusList;
     }
 
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.custom_employee_list, null, true);
 
@@ -52,6 +61,9 @@ public class EmployeesList extends ArrayAdapter<String> {
             public void onClick(View view) {
 
                Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                intent.putExtra("lat", String.valueOf(latList.get(position)));
+                intent.putExtra("lng", String.valueOf(longList.get(position)));
+                intent.putExtra("name", maintitle.get(position));
                 context.startActivity(intent);
             }
         });
