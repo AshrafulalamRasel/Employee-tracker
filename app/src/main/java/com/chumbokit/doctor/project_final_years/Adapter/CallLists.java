@@ -10,28 +10,40 @@ import android.widget.TextView;
 
 import com.chumbokit.doctor.project_final_years.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by monirozzamanroni on 6/19/2019.
  */
 
 public class CallLists extends ArrayAdapter<String> {
     private final Activity context;
-    private final String[] maintitle;
-    private final String[] CallDate;
-    private final String[] subtitle;
+    private final ArrayList<String> contectNameList;
+    private final ArrayList<String> duration;
     private final Integer[] imgid;
+    private final ArrayList<String> date;
 
-    public CallLists(Activity context, String[] phoneNum, String[] callDuration, String[] callDate, Integer[] callImage) {
+    public CallLists(Activity context, ArrayList<String> contectNameList, ArrayList<String> duration, Integer[] imgid, ArrayList<String> date) {
+        super(context, R.layout.custom_employee_list, contectNameList);
+        // TODO Auto-generated constructor stub
+
+        this.context = context;
+        this.contectNameList = contectNameList;
+        this.duration = duration;
+        this.imgid = imgid;
+        this.date = date;
+
+    }
+
+   /* public CallLists(Activity context, String[] phoneNum, Integer[] imgid) {
         super(context, R.layout.custom_employee_list, phoneNum);
         // TODO Auto-generated constructor stub
 
         this.context = context;
         this.maintitle = phoneNum;
-        this.subtitle = callDuration;
-        this.imgid = callImage;
-        this.CallDate = callDate;
 
-    }
+
+    }*/
 
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
@@ -42,10 +54,10 @@ public class CallLists extends ArrayAdapter<String> {
         TextView callDuration = (TextView) rowView.findViewById(R.id.callDuration);
         TextView callDate = (TextView) rowView.findViewById(R.id.callDate);
 
-        phoneNum.setText(maintitle[position]);
-        callImage.setImageResource(imgid[position]);
-        callDuration.setText(subtitle[position]);
-        callDate.setText(CallDate[position]);
+        phoneNum.setText(contectNameList.get(position));
+        //callImage.setImageResource(imgid[position]);
+        callDuration.setText(duration.get(position));
+        callDate.setText(date.get(position));
 
         return rowView;
 

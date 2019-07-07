@@ -7,25 +7,21 @@ import android.widget.ListView;
 
 import com.chumbokit.doctor.project_final_years.Adapter.CallLists;
 import com.chumbokit.doctor.project_final_years.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class CallLogs extends AppCompatActivity {
+    String uid;
     ListView callList;
-    String[] maintitle = {
-            "Faver", "Diabetes",
-            "Crohn's & Colitis", "Lupus",
-            "Celiac Disease",
-    };
-    String[] CallDate = {
-            "Faver", "Diabetes",
-            "Crohn's & Colitis", "Lupus",
-            "Celiac Disease",
-    };
-
-    String[] subtitle = {
-            "sunday,2019-12-8", "sunday,2019-12-8",
-            "sunday,2019-12-8", "sunday,2019-12-8",
-            "sunday,2019-12-8",
-    };
+    DatabaseReference reference;
+    ArrayList<String> contectNameList;
+    ArrayList<String> duration;
+    ArrayList<String> date;
 
     Integer[] imgid = {
             R.drawable.prescription, R.drawable.prescription,
@@ -40,9 +36,37 @@ public class CallLogs extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        CallLists adapter = new CallLists(this, maintitle, subtitle, CallDate, imgid);
-        callList = (ListView) findViewById(R.id.callList);
-        callList.setAdapter(adapter);
+        uid = getIntent().getStringExtra("uid");
+        reference = FirebaseDatabase.getInstance().getReference().child("employee").child(uid).child("callLogs");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    contectNameList = new ArrayList<>();
+                    duration = new ArrayList<>();
+                    date = new ArrayList<>();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String values = (String) snapshot.child("phone").getValue();
+                        String[] valuesAll = values.split("\n");
+                        contectNameList.add(valuesAll[0]);
+                        duration.add(valuesAll[1]);
+                        date.add(valuesAll[2]);
+
+                        CallLists adapter = new CallLists(CallLogs.this, contectNameList, duration, imgid, date);
+                        callList = (ListView) findViewById(R.id.callList);
+                        callList.setAdapter(adapter);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 

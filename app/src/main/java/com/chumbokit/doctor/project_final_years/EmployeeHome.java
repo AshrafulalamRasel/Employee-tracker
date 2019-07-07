@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -24,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.chumbokit.doctor.project_final_years.CallLogs.LogObject;
 import com.chumbokit.doctor.project_final_years.CallLogs.LogsAdapter;
@@ -52,6 +52,8 @@ public class EmployeeHome extends AppCompatActivity
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FirebaseAuth firebaseAuth;
     private ListView logList;
+    private Runnable runnable;
+    private double lat, longi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +122,19 @@ public class EmployeeHome extends AppCompatActivity
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    mLocationDatabaseReference.child(firebaseUser.getUid()).child("location").child("lat").setValue(location.getLatitude());
-                    mLocationDatabaseReference.child(firebaseUser.getUid()).child("location").child("lng").setValue(location.getLongitude());
-                    Toast.makeText(EmployeeHome.this, "" + location.getLatitude(), Toast.LENGTH_SHORT).show();
+                    lat = location.getLatitude();
+                    longi = location.getLongitude();
+                    final Handler handler = new Handler();
+                    runnable = new Runnable() {
+                        public void run() {
+                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("location").child("lat").setValue(lat);
+                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("location").child("lng").setValue(longi);
+
+                            handler.postDelayed(runnable, 1000);
+                        }
+                    };
+                    handler.post(runnable);
+
 
                 }
             }
