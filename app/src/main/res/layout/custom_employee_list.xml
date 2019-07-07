@@ -54,20 +54,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="1dp"
                 android:layout_marginTop="2dp"
-                android:background="@color/colorPurpleT"
+                android:background="#f2060a"
                 android:fontFamily="monospace"
                 android:padding="5dp"
-                android:text="Map" />
+                android:text="Map"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/callHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:background="@color/colorPurpleT"
+                android:background="#20c153"
                 android:fontFamily="monospace"
                 android:padding="5dp"
-                android:text="Call Details" />
+                android:text="Call Details"
+                android:textColor="@color/white" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

@@ -2,6 +2,7 @@ package com.chumbokit.doctor.project_final_years.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,13 @@ public class EmployeesList extends ArrayAdapter<String> {
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
         Button map= rowView.findViewById(R.id.map);
         Button callDtails= rowView.findViewById(R.id.callHistory);
+        if (activeStatusList.get(position)) {
+            map.setBackgroundColor(Color.parseColor("#20c153"));
+            callDtails.setBackgroundColor(Color.parseColor("#20c153"));
+        } else {
+            map.setBackgroundColor(Color.parseColor("#f2060a"));
+            callDtails.setBackgroundColor(Color.parseColor("#f2060a"));
+        }
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +80,7 @@ public class EmployeesList extends ArrayAdapter<String> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CallLogs.class);
+                intent.putExtra("uid", uidList.get(position));
                 context.startActivity(intent);
             }
         });
