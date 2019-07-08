@@ -22,6 +22,8 @@ public class CallLogs extends AppCompatActivity {
     ArrayList<String> contectNameList;
     ArrayList<String> duration;
     ArrayList<String> date;
+    ArrayList<String> callTypes;
+
 
     Integer[] imgid = {
             R.drawable.prescription, R.drawable.prescription,
@@ -45,14 +47,17 @@ public class CallLogs extends AppCompatActivity {
                     contectNameList = new ArrayList<>();
                     duration = new ArrayList<>();
                     date = new ArrayList<>();
+                    callTypes = new ArrayList<>();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String values = (String) snapshot.child("phone").getValue();
                         String[] valuesAll = values.split("\n");
                         contectNameList.add(valuesAll[0]);
                         duration.add(valuesAll[1]);
                         date.add(valuesAll[2]);
+                        callTypes.add(valuesAll[3]);
 
-                        CallLists adapter = new CallLists(CallLogs.this, contectNameList, duration, imgid, date);
+
+                        CallLists adapter = new CallLists(CallLogs.this, contectNameList, duration, imgid, date, callTypes);
                         callList = (ListView) findViewById(R.id.callList);
                         callList.setAdapter(adapter);
                     }

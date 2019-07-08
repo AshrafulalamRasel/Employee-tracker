@@ -72,10 +72,10 @@ public class LogsAdapter extends ArrayAdapter<LogObject> {
         phone.setText(log.getContactName());
         duration.setText(log.getCoolDuration());
         date.setText(dateFormat.format(date1));
-        mLocationDatabaseReference.child(firebaseUser.getUid()).child("callLogs").push().child("phone").setValue(log.getContactName() + "\n" + log.getCoolDuration() + "\n" + dateFormat.format(date1));
-
-
-        //Toast.makeText(LogsAdapter.this,""+ log.getCoolDuration(), Toast.LENGTH_SHORT).show();
+        mLocationDatabaseReference.child(firebaseUser.getUid()).child("callLogs").push()
+                .child("phone")
+                .setValue(log.getContactName() + "\n" + log.getCoolDuration() + "\n" + dateFormat.format(date1) + "\n" + log.getType());
+      
         switch (log.getType()) {
 
             case LogsManager.INCOMING:

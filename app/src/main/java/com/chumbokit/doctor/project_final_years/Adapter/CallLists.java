@@ -1,6 +1,7 @@
 package com.chumbokit.doctor.project_final_years.Adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,9 @@ public class CallLists extends ArrayAdapter<String> {
     private final ArrayList<String> duration;
     private final Integer[] imgid;
     private final ArrayList<String> date;
+    private final ArrayList<String> callTypes;
 
-    public CallLists(Activity context, ArrayList<String> contectNameList, ArrayList<String> duration, Integer[] imgid, ArrayList<String> date) {
+    public CallLists(Activity context, ArrayList<String> contectNameList, ArrayList<String> duration, Integer[] imgid, ArrayList<String> date, ArrayList<String> callTypes) {
         super(context, R.layout.custom_employee_list, contectNameList);
         // TODO Auto-generated constructor stub
 
@@ -32,6 +34,7 @@ public class CallLists extends ArrayAdapter<String> {
         this.duration = duration;
         this.imgid = imgid;
         this.date = date;
+        this.callTypes = callTypes;
 
     }
 
@@ -53,12 +56,24 @@ public class CallLists extends ArrayAdapter<String> {
         ImageView callImage = (ImageView) rowView.findViewById(R.id.callImage);
         TextView callDuration = (TextView) rowView.findViewById(R.id.callDuration);
         TextView callDate = (TextView) rowView.findViewById(R.id.callDate);
-
-        phoneNum.setText(contectNameList.get(position));
-        //callImage.setImageResource(imgid[position]);
-        callDuration.setText(duration.get(position));
-        callDate.setText(date.get(position));
-
+        TextView callType = (TextView) rowView.findViewById(R.id.callType);
+        if (callTypes.get(position).equals("1")) {
+            phoneNum.setText(contectNameList.get(position));
+            callType.setText("Incoming Call");
+            callDuration.setText(duration.get(position));
+            callDate.setText(date.get(position));
+        } else if (callTypes.get(position).equals("2")) {
+            phoneNum.setText(contectNameList.get(position));
+            callType.setText("Outgoing Call");
+            callDuration.setText(duration.get(position));
+            callDate.setText(date.get(position));
+        } else {
+            phoneNum.setText(contectNameList.get(position));
+            callType.setText("Missed Call");
+            callType.setTextColor(Color.parseColor("#ae1414"));
+            callDuration.setText(duration.get(position));
+            callDate.setText(date.get(position));
+        }
         return rowView;
 
     }
