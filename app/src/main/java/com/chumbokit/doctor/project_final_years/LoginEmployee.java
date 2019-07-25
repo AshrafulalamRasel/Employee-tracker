@@ -252,7 +252,5 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
             }
         }
     }
-
-
 }
 
