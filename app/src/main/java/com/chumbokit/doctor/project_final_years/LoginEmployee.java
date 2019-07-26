@@ -112,8 +112,9 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
     }
 
     private void userSign() {
+        String empolyeePassword ="employee";
         email = Email.getText().toString().trim();
-        Password = password.getText().toString().trim();
+        Password = (password.getText()+empolyeePassword).toString().trim();
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(LoginEmployee.this, "Enter the correct Email", Toast.LENGTH_SHORT).show();
             return;
