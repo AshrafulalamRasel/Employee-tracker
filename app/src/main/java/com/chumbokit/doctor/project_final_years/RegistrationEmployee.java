@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -67,9 +68,11 @@ public class RegistrationEmployee extends AppCompatActivity {
 
 
     private void UserRegister() {
+        String empolyeePassword ="employee";
         Name = Username.getText().toString().trim();
         email = Email.getText().toString().trim();
-        password = Password.getText().toString().trim();
+        password = (Password.getText()+empolyeePassword).toString().trim();
+        Log.e("Password",password);
 
         if (TextUtils.isEmpty(Name)) {
             Toast.makeText(RegistrationEmployee.this, "Enter Name", Toast.LENGTH_SHORT).show();
