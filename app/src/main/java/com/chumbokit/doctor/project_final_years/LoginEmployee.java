@@ -109,6 +109,14 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         } else {
             logsRunnable.run();
         }
+
+        loginButtonEmployee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginEmployee.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void userSign() {
