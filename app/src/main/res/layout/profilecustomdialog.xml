@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="Monirozzaman Roni"
+            android:text="Tamanna"
             android:textSize="20dp" />
     </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="roni29"
+            android:text="tamanna29"
             android:textSize="20dp" />
     </LinearLayout>
 
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="B+"
+            android:text="AB+"
             android:textSize="20dp" />
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="01988841890"
+            android:text="88019xxxxxxxxxxxxx"
             android:textSize="20dp" />
     </LinearLayout>
 
@@ -118,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:text="Asulia,Savar,Dhaka"
+            android:text="Chittagong."
             android:textSize="20dp" />
     </LinearLayout>
 
