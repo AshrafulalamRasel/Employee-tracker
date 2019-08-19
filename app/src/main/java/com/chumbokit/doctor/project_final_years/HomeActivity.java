@@ -97,7 +97,9 @@ public class HomeActivity extends AppCompatActivity
                         Boolean activeStatus = (Boolean) snapshot.child("activeStatus").getValue();
                         activeStatusList.add(activeStatus);
                         if (activeStatus) {
-                            sendNotification(name);
+                            sendNotification(name, "is active Now");
+                        } else if (!activeStatus) {
+                            sendNotification(name, "is logout Now");
                         }
                     }
 
@@ -168,7 +170,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void sendNotification(String contentTitle) {
+    private void sendNotification(String contentTitle, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -180,7 +182,7 @@ public class HomeActivity extends AppCompatActivity
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.notification)
                         .setContentTitle(contentTitle)
-                        .setContentText("is active now")
+                        .setContentText(message)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
