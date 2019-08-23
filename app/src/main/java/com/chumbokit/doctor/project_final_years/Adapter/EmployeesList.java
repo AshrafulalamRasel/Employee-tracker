@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chumbokit.doctor.project_final_years.AssignTaskActivity;
 import com.chumbokit.doctor.project_final_years.CallLogs.CallLogs;
 import com.chumbokit.doctor.project_final_years.MapsActivity;
 import com.chumbokit.doctor.project_final_years.R;
@@ -51,7 +53,7 @@ public class EmployeesList extends ArrayAdapter<String> {
     public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.custom_employee_list, null, true);
-
+        LinearLayout task = rowView.findViewById(R.id.task);
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
@@ -84,7 +86,14 @@ public class EmployeesList extends ArrayAdapter<String> {
                 context.startActivity(intent);
             }
         });
-
+        task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), AssignTaskActivity.class);
+                intent.putExtra("uid", uidList.get(position));
+                context.startActivity(intent);
+            }
+        });
         titleText.setText(maintitle.get(position));
         imageView.setImageResource(imgid.get(position));
         subtitleText.setText(subtitle.get(position));

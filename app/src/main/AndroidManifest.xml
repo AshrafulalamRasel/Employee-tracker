@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.chumbokit.doctor.project_final_years">
 
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
@@ -75,7 +76,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".CallLogs.CallLogs"></activity>
+        <activity android:name=".CallLogs.CallLogs" />
         <activity
             android:name=".LoginEmployee"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
@@ -86,6 +87,14 @@
             android:name=".EmployeeHome"
             android:label="@string/title_activity_employee_home"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AssignTaskActivity" />
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="25.3.1"
+            tools:replace="android:value" />
+
+        <activity android:name=".EmployeeTasksShow"></activity>
     </application>
 
 </manifest>

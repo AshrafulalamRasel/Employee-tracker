@@ -188,8 +188,9 @@ public class EmployeeHome extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_task) {
+            Intent intent = new Intent(EmployeeHome.this, EmployeeTasksShow.class);
+            startActivity(intent);
         } else if (id == R.id.signout) {
             try {
                 firebaseAuth.signOut();
