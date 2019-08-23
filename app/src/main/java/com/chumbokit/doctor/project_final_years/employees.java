@@ -53,6 +53,7 @@ public class employees extends AppCompatActivity {
         dialog.setMessage("Loading in please wait...");
         dialog.setIndeterminate(true);
         dialog.show();
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("employee").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

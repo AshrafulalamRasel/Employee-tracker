@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity
         profile = findViewById(R.id.profile);
         client = findViewById(R.id.client);
 
+
         setSupportActionBar(toolbar);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +67,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(new Intent(HomeActivity.this, employees.class));
             }
         });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
