@@ -61,16 +61,6 @@
                 android:text="Map"
                 android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/callHistory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#20c153"
-                android:fontFamily="monospace"
-                android:padding="5dp"
-                android:text="Call Details"
-                android:textColor="@color/white" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
