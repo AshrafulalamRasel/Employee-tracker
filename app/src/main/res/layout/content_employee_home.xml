@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="monospace"
-            android:text="Call List"
+            android:text="Task List"
             android:textColor="@color/colorBlack" />
     </android.support.v7.widget.CardView>
 
