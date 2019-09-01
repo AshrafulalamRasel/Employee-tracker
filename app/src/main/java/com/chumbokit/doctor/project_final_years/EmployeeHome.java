@@ -3,6 +3,7 @@ package com.chumbokit.doctor.project_final_years;
 import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.chumbokit.doctor.project_final_years.Adapter.TasksList;
 import com.chumbokit.doctor.project_final_years.CallLogs.LogObject;
 import com.chumbokit.doctor.project_final_years.CallLogs.LogsAdapter;
 import com.chumbokit.doctor.project_final_years.CallLogs.LogsManager;
@@ -35,9 +37,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -51,10 +57,12 @@ public class EmployeeHome extends AppCompatActivity
     private FirebaseUser firebaseUser;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private FirebaseAuth firebaseAuth;
-    private ListView logList;
+    private ListView taskList;
     private Runnable runnable;
     private double lat, longi;
-
+    private ProgressDialog dialog;
+    ArrayList<String> mainName = new ArrayList<>();
+    ArrayList<String> subtitle = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +70,7 @@ public class EmployeeHome extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         profile = findViewById(R.id.profile);
-        logList = (ListView) findViewById(R.id.LogsList);
+        taskList = (ListView) findViewById(R.id.LogsList);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -102,7 +110,8 @@ public class EmployeeHome extends AppCompatActivity
         });
 
         getLocation();
-        loadLogs();
+        TaskList();
+        // loadLogs();
         mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
     }
 
@@ -150,7 +159,7 @@ public class EmployeeHome extends AppCompatActivity
         LogsManager logsManager = new LogsManager(this);
         List<LogObject> callLogs = logsManager.getLogs(LogsManager.ALL_CALLS);
         LogsAdapter logsAdapter = new LogsAdapter(this, R.layout.log_layout, callLogs);
-        logList.setAdapter(logsAdapter);
+        taskList.setAdapter(logsAdapter);
 
     }
 
@@ -237,5 +246,39 @@ public class EmployeeHome extends AppCompatActivity
                     }
 
                 }).create().show();
+    }
+
+    public void TaskList() {
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading in please wait...");
+        dialog.setIndeterminate(true);
+        dialog.show();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("employee").child(firebaseUser.getUid()).child("task").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        //depending upon what datatype youre using caste to it.
+                        String title = (String) snapshot.child("title").getValue();
+                        String description = (String) snapshot.child("description").getValue();
+
+                        mainName.add(title);
+                        subtitle.add(description);
+
+                        TasksList adapter = new TasksList(EmployeeHome.this, mainName, subtitle);
+
+                        taskList.setAdapter(adapter);
+                        dialog.dismiss();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
