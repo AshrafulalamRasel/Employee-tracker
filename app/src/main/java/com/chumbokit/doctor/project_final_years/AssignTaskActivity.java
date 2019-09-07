@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class AssignTaskActivity extends AppCompatActivity {
     EditText title, description;
     Button send;
-    ArrayList<String> mainName = new ArrayList<>();
     String uid;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
@@ -28,6 +27,7 @@ public class AssignTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_task);
+
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         send = findViewById(R.id.send);
@@ -53,6 +53,7 @@ public class AssignTaskActivity extends AppCompatActivity {
                 dialog.show();
                 mLocationDatabaseReference.child("title").setValue(title.getText().toString());
                 mLocationDatabaseReference.child("description").setValue(description.getText().toString());
+                mLocationDatabaseReference.child("status").setValue("pending");
                 title.setText("");
                 description.setText("");
                 ToastUtil.show(AssignTaskActivity.this, "Send Successfully");

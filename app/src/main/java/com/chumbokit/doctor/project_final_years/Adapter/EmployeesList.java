@@ -1,6 +1,7 @@
 package com.chumbokit.doctor.project_final_years.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.chumbokit.doctor.project_final_years.AssignTaskActivity;
 import com.chumbokit.doctor.project_final_years.CallLogs.CallLogs;
+import com.chumbokit.doctor.project_final_years.EmployeeHome;
+import com.chumbokit.doctor.project_final_years.EmployeeTaskListActivity;
 import com.chumbokit.doctor.project_final_years.MapsActivity;
 import com.chumbokit.doctor.project_final_years.R;
 
@@ -89,9 +92,27 @@ public class EmployeesList extends ArrayAdapter<String> {
         task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AssignTaskActivity.class);
-                intent.putExtra("uid", uidList.get(position));
-                context.startActivity(intent);
+                // create an alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final View customLayout = context.getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
+                builder.setView(customLayout);
+              Button task=customLayout.findViewById(R.id.task);
+              TextView userName=customLayout.findViewById(R.id.userName);
+              TextView iduser=customLayout.findViewById(R.id.iduser);
+                task.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(customLayout.getContext(), EmployeeTaskListActivity.class);
+                        intent.putExtra("uid", uidList.get(position));
+                        context.startActivity(intent);
+                    }
+                });
+                userName.setText(maintitle.get(position));
+                iduser.setText(uidList.get(position));
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
             }
         });
         titleText.setText(maintitle.get(position));

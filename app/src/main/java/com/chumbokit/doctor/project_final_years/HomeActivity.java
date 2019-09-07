@@ -23,12 +23,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.itvillage.dev.basicutil.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,10 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private CardView profile, client;
     private ArrayList<Boolean> activeStatusList = new ArrayList<>();
+    private ArrayList<String> loginTimeList = new ArrayList<>();
+    private ArrayList<String> logoutTimeList = new ArrayList<>();
+    private ArrayList<String> nameTimeList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,14 +103,18 @@ public class HomeActivity extends AppCompatActivity
                         Double lng = (Double) snapshot.child("location").child("lng").getValue();
                         String uid = (String) snapshot.getKey();
                         Boolean activeStatus = (Boolean) snapshot.child("activeStatus").getValue();
+                        String loginTime = (String) snapshot.child("activetime").child("login").getValue();
+                        String logoutTime = (String) snapshot.child("activetime").child("logout").getValue();
                         activeStatusList.add(activeStatus);
-                        if (activeStatus) {
-                            sendNotification(name, "is active Now");
-                        } else if (!activeStatus) {
-                            sendNotification(name, "is logout Now");
-                        }
+                        loginTimeList.add(loginTime);
+                        logoutTimeList.add(logoutTime);
+                        nameTimeList.add(name);
                     }
 
+                   // Toast.makeText(getApplicationContext(),""+nameTimeList,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),""+loginTimeList,Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(getApplicationContext(),""+logoutTimeList,Toast.LENGTH_LONG).show();
+                   sendNotification(activeStatusList, nameTimeList, loginTimeList, logoutTimeList);
                 }
             }
 
@@ -172,34 +182,61 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void sendNotification(String contentTitle, String message) {
+    private void sendNotification(ArrayList<Boolean> activeStatusList, ArrayList<String> nameTimeList, ArrayList<String> loginTimeList, ArrayList<String> logoutTimeList) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0/* Request code*/, intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "Notification";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.notification)
-                        .setContentTitle(contentTitle)
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
+        for (int i = 0 ; i < activeStatusList.size(); i++) {
+            if (!activeStatusList.get(i)) {
+                NotificationCompat.Builder notificationBuilder =
+                        new NotificationCompat.Builder(this, channelId)
+                                .setSmallIcon(R.drawable.notification)
+                                .setContentTitle(nameTimeList.get(i))
+                                .setContentText("is Logout at " + logoutTimeList.get(i))
+                                .setAutoCancel(true)
+                                .setSound(defaultSoundUri)
+                                .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
+                // Since android Oreo notification channel is needed.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(channelId,
+                            "Channel human readable title",
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    notificationManager.createNotificationChannel(channel);
+                }
+
+                notificationManager.notify(i/* ID of notification*/ , notificationBuilder.build());
+            } else if(activeStatusList.get(i)){
+                NotificationCompat.Builder notificationBuilder =
+                        new NotificationCompat.Builder(this, channelId)
+                                .setSmallIcon(R.drawable.notification)
+                                .setContentTitle(nameTimeList.get(i))
+                                .setContentText("is Login at " + loginTimeList.get(i))
+                                .setAutoCancel(true)
+                                .setSound(defaultSoundUri)
+                                .setContentIntent(pendingIntent);
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                // Since android Oreo notification channel is needed.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(channelId,
+                            "Channel human readable title",
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    notificationManager.createNotificationChannel(channel);
+                }
+
+                notificationManager.notify(i /*ID of notification*/ , notificationBuilder.build());
+            }
+            Toast.makeText(getApplicationContext(),""+activeStatusList.get(i)+nameTimeList.get(i)+loginTimeList.get(i)+logoutTimeList.get(i),Toast.LENGTH_LONG).show();
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

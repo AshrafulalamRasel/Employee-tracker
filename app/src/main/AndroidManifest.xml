@@ -94,7 +94,8 @@
             android:value="25.3.1"
             tools:replace="android:value" />
 
-        <activity android:name=".EmployeeTasksShow"></activity>
+        <activity android:name=".EmployeeTasksShow" />
+        <activity android:name=".EmployeeTaskListActivity"></activity>
     </application>
 
 </manifest>
