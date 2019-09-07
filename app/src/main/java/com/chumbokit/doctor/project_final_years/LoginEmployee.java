@@ -35,6 +35,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class LoginEmployee extends AppCompatActivity implements View.OnClickListener {
     public static final String userEmail = "";
     public static final String TAG = "LOGIN";
@@ -53,6 +56,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
     private Runnable logsRunnable;
     private String[] requiredPermissions = {Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_CONTACTS};
     private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth firebaseAuth;
     private DatabaseReference mLocationDatabaseReference;
 
     @Override
@@ -72,7 +76,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee");
+        mLocationDatabaseReference = mFirebaseDatabase.getReference();
         mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -134,6 +138,7 @@ public class LoginEmployee extends AppCompatActivity implements View.OnClickList
         dialog.setIndeterminate(true);
         dialog.show();
         mAuth.signInWithEmailAndPassword(email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
