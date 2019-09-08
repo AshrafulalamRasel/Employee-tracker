@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chumbokit.doctor.project_final_years.AssignTaskActivity;
-import com.chumbokit.doctor.project_final_years.CallLogs.CallLogs;
-import com.chumbokit.doctor.project_final_years.EmployeeHome;
+import com.chumbokit.doctor.project_final_years.EmployeePerformanceActivity;
 import com.chumbokit.doctor.project_final_years.EmployeeTaskListActivity;
 import com.chumbokit.doctor.project_final_years.MapsActivity;
 import com.chumbokit.doctor.project_final_years.R;
@@ -97,12 +95,21 @@ public class EmployeesList extends ArrayAdapter<String> {
                 final View customLayout = context.getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
                 builder.setView(customLayout);
               Button task=customLayout.findViewById(R.id.task);
+                Button performance = customLayout.findViewById(R.id.performance);
               TextView userName=customLayout.findViewById(R.id.userName);
               TextView iduser=customLayout.findViewById(R.id.iduser);
                 task.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(customLayout.getContext(), EmployeeTaskListActivity.class);
+                        intent.putExtra("uid", uidList.get(position));
+                        context.startActivity(intent);
+                    }
+                });
+                performance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(customLayout.getContext(), EmployeePerformanceActivity.class);
                         intent.putExtra("uid", uidList.get(position));
                         context.startActivity(intent);
                     }

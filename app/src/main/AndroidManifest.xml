@@ -95,7 +95,8 @@
             tools:replace="android:value" />
 
         <activity android:name=".EmployeeTasksShow" />
-        <activity android:name=".EmployeeTaskListActivity"></activity>
+        <activity android:name=".EmployeeTaskListActivity" />
+        <activity android:name=".EmployeePerformanceActivity"></activity>
     </application>
 
 </manifest>
