@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.chumbokit.doctor.project_final_years.Adapter.TasksList;
@@ -43,7 +44,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itvillage.dev.basicutil.ToastUtil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,6 +55,9 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class EmployeeHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    ArrayList<String> mainName = new ArrayList<>();
+    ArrayList<String> subtitle = new ArrayList<>();
+    ArrayList<String> taskIdList = new ArrayList<>();
     private CardView profile;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
@@ -65,9 +68,6 @@ public class EmployeeHome extends AppCompatActivity
     private Runnable runnable;
     private double lat, longi;
     private ProgressDialog dialog;
-    ArrayList<String> mainName = new ArrayList<>();
-    ArrayList<String> subtitle = new ArrayList<>();
-    ArrayList<String> taskIdList = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -110,7 +110,10 @@ public class EmployeeHome extends AppCompatActivity
                 // set the custom layout
                 final View customLayout = getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
                 builder.setView(customLayout);
-                // create and show the alert dialog
+                Button task = customLayout.findViewById(R.id.task);
+                Button performance = customLayout.findViewById(R.id.performance);
+                task.setVisibility(View.INVISIBLE);
+                performance.setVisibility(View.INVISIBLE);
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
