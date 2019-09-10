@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itvillage.dev.basicutil.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -61,6 +61,10 @@ public class HomeActivity extends AppCompatActivity
                 // set the custom layout
                 final View customLayout = getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
                 builder.setView(customLayout);
+                Button task = customLayout.findViewById(R.id.task);
+                Button performance = customLayout.findViewById(R.id.performance);
+                task.setVisibility(View.INVISIBLE);
+                performance.setVisibility(View.INVISIBLE);
                 // create and show the alert dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
