@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.chumbokit.doctor.project_final_years.AssignTaskActivity">
+    tools:context="com.itvillageltd.emphoyee.tracker.AssignTaskActivity">
 
     <EditText
         android:id="@+id/title"
