@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.chumbokit.doctor.project_final_years.employees"
+    tools:context="com.itvillageltd.emphoyee.tracker.EmployeeListActivity"
     tools:showIn="@layout/activity_employees">
 
     <ListView

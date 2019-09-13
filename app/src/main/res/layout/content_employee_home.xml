@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.chumbokit.doctor.project_final_years.EmployeeHome"
+    tools:context="com.itvillageltd.emphoyee.tracker.EmployeeHomeActivity"
     tools:showIn="@layout/app_bar_home">
 
 
