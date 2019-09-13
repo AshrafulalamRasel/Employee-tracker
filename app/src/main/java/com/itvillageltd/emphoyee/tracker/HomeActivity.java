@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -32,17 +33,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private CardView profile, client;
+    private CardView profile, client, taskDefine;
     private ArrayList<Boolean> activeStatusList = new ArrayList<>();
     private ArrayList<String> loginTimeList = new ArrayList<>();
     private ArrayList<String> logoutTimeList = new ArrayList<>();
     private ArrayList<String> nameTimeList = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +59,14 @@ public class HomeActivity extends AppCompatActivity
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // create an alert builder
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-                // set the custom layout
                 final View customLayout = getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
                 builder.setView(customLayout);
                 Button task = customLayout.findViewById(R.id.task);
                 Button performance = customLayout.findViewById(R.id.performance);
                 task.setVisibility(View.INVISIBLE);
                 performance.setVisibility(View.INVISIBLE);
-                // create and show the alert dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -75,6 +77,13 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, EmployeeListActivity.class));
+            }
+        });
+        taskDefine = findViewById(R.id.taskDefine);
+        taskDefine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), AssignTaskActivity.class));
             }
         });
 
@@ -97,6 +106,10 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        final LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("employee").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -106,12 +119,11 @@ public class HomeActivity extends AppCompatActivity
 
                         String name = (String) snapshot.child("name").getValue();
                         Boolean activeStatus = (Boolean) snapshot.child("activeStatus").getValue();
-                        String loginTime = (String) snapshot.child("activetime").child("login").getValue();
-                        String logoutTime = (String) snapshot.child("activetime").child("logout").getValue();
+
 
                         activeStatusList.add(activeStatus);
-                        loginTimeList.add(loginTime);
-                        logoutTimeList.add(logoutTime);
+                        loginTimeList.add(dtf.format(now));
+                        logoutTimeList.add(dtf.format(now));
                         nameTimeList.add(name);
                     }
                     sendNotification(activeStatusList, nameTimeList, loginTimeList, logoutTimeList);
@@ -200,7 +212,7 @@ public class HomeActivity extends AppCompatActivity
                 // Since android Oreo notification channel is needed.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(channelId,
-                            "Channel human readable title",
+                            "Channel human readable employeesList",
                             NotificationManager.IMPORTANCE_DEFAULT);
                     notificationManager.createNotificationChannel(channel);
                 }
@@ -222,7 +234,7 @@ public class HomeActivity extends AppCompatActivity
                 // Since android Oreo notification channel is needed.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(channelId,
-                            "Channel human readable title",
+                            "Channel human readable employeesList",
                             NotificationManager.IMPORTANCE_DEFAULT);
                     notificationManager.createNotificationChannel(channel);
                 }

@@ -1,8 +1,6 @@
 package com.itvillageltd.emphoyee.tracker.Adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,21 +52,7 @@ public class TasksList extends ArrayAdapter<String> {
         CardView details = rowView.findViewById(R.id.details);
         final Button finsih=rowView.findViewById(R.id.finsih);
         final Button start=rowView.findViewById(R.id.start);
-        title.setText(maintitle.get(position));
-        details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Task Description")
-                        .setMessage(subtitle.get(position))
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
-            }
-        });
+        title.setText(subtitle.get(position));
 
         finsih.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -112,5 +112,17 @@
             android:text="Performance View"
             android:textColor="@color/white"
             android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/attendence"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="#ecc193"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Attendance Sheet"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
     </LinearLayout>
 </LinearLayout>

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.MainActivity"
+            android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,32 +26,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.RegisterActivity"
+            android:name=".RegisterActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.HomeActivity"
+            android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.EmployeeListActivity"
+            android:name=".EmployeeListActivity"
             android:label="@string/title_activity_employees"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.MapsActivity"
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.LoginEmployeeActivity"
+            android:name=".LoginEmployeeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.RegistrationEmployeeActivity"
+            android:name=".RegistrationEmployeeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="com.itvillageltd.emphoyee.tracker.EmployeeHomeActivity"
+            android:name=".EmployeeHomeActivity"
             android:label="@string/title_activity_employee_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.itvillageltd.emphoyee.tracker.AssignTaskActivity" />
-        <activity android:name="com.itvillageltd.emphoyee.tracker.EmployeeTaskListActivity" />
-        <activity android:name="com.itvillageltd.emphoyee.tracker.EmployeePerformanceActivity"></activity>
+        <activity android:name=".AssignTaskActivity" />
+        <activity android:name=".EmployeeTaskListActivity" />
+        <activity android:name=".EmployeePerformanceActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -61,6 +60,8 @@
             android:name="android.support.VERSION"
             android:value="25.3.1"
             tools:replace="android:value" />
+
+        <activity android:name=".AttendanceSheetActivity"></activity>
     </application>
 
 </manifest>

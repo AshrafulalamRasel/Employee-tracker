@@ -8,6 +8,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="my_profile">My Profile</string>
+    <string name="task_define">Task Share</string>
     <string name="create_appointment">Create Appointment</string>
     <string name="my_appointment">My Appointment</string>
     <string name="Employee">Employee Details</string>
