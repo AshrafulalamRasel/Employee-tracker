@@ -112,8 +112,10 @@ public class EmployeeHomeActivity extends AppCompatActivity
                 builder.setView(customLayout);
                 Button task = customLayout.findViewById(R.id.task);
                 Button performance = customLayout.findViewById(R.id.performance);
+                Button attendence = customLayout.findViewById(R.id.attendence);
                 task.setVisibility(View.INVISIBLE);
                 performance.setVisibility(View.INVISIBLE);
+                attendence.setVisibility(View.INVISIBLE);
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -123,11 +125,10 @@ public class EmployeeHomeActivity extends AppCompatActivity
         getLocation();
         TaskList();
 
-
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));
-        mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("login").setValue(dtf.format(now));
+        mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("login").push().child("time").setValue(dtf.format(now));
         mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
     }
 
@@ -204,7 +205,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 System.out.println(dtf.format(now));
-                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").setValue(dtf.format(now));
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
                 mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
                 startActivity(intent);
@@ -239,7 +240,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
                             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                             LocalDateTime now = LocalDateTime.now();
                             System.out.println(dtf.format(now));
-                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").setValue(dtf.format(now));
+                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
                             mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
                             Intent intent = new Intent(EmployeeHomeActivity.this, LoginEmployeeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
@@ -268,8 +269,8 @@ public class EmployeeHomeActivity extends AppCompatActivity
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         //depending upon what datatype youre using caste to it.
-                        String title = (String) snapshot.child("title").getValue();
-                        String description = (String) snapshot.child("description").getValue();
+                        String title = (String) snapshot.child("employeesList").getValue();
+                        String description = (String) snapshot.child("taskList").getValue();
                         String taskId = snapshot.getKey();
 
                         mainName.add(title);

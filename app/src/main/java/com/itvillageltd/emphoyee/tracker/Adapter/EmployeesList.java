@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.itvillageltd.emphoyee.tracker.AttendanceSheetActivity;
 import com.itvillageltd.emphoyee.tracker.EmployeePerformanceActivity;
 import com.itvillageltd.emphoyee.tracker.EmployeeTaskListActivity;
 import com.itvillageltd.emphoyee.tracker.MapsActivity;
@@ -52,26 +53,24 @@ public class EmployeesList extends ArrayAdapter<String> {
     }
 
     public View getView(final int position, View view, ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
+        final LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.custom_employee_list, null, true);
         LinearLayout task = rowView.findViewById(R.id.task);
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
-        Button map= rowView.findViewById(R.id.map);
-       // Button callDtails= rowView.findViewById(R.id.callHistory);
+        Button map = rowView.findViewById(R.id.map);
+
         if (activeStatusList.get(position)) {
             map.setBackgroundColor(Color.parseColor("#20c153"));
-           // callDtails.setBackgroundColor(Color.parseColor("#20c153"));
         } else {
             map.setBackgroundColor(Color.parseColor("#f2060a"));
-           // callDtails.setBackgroundColor(Color.parseColor("#f2060a"));
         }
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-               Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                Intent intent = new Intent(view.getContext(), MapsActivity.class);
                 intent.putExtra("lat", String.valueOf(latList.get(position)));
                 intent.putExtra("lng", String.valueOf(longList.get(position)));
                 intent.putExtra("name", maintitle.get(position));
@@ -86,10 +85,11 @@ public class EmployeesList extends ArrayAdapter<String> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 final View customLayout = context.getLayoutInflater().inflate(R.layout.profilecustomdialog, null);
                 builder.setView(customLayout);
-              Button task=customLayout.findViewById(R.id.task);
+                Button task = customLayout.findViewById(R.id.task);
                 Button performance = customLayout.findViewById(R.id.performance);
-              TextView userName=customLayout.findViewById(R.id.userName);
-              TextView iduser=customLayout.findViewById(R.id.iduser);
+                TextView userName = customLayout.findViewById(R.id.userName);
+                TextView iduser = customLayout.findViewById(R.id.iduser);
+
                 task.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -106,6 +106,16 @@ public class EmployeesList extends ArrayAdapter<String> {
                         context.startActivity(intent);
                     }
                 });
+                Button attendenceSheetBut = customLayout.findViewById(R.id.attendence);
+                attendenceSheetBut.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, AttendanceSheetActivity.class);
+                        intent.putExtra("employeeId", uidList.get(position));
+                        context.startActivity(intent);
+                    }
+                });
+
                 userName.setText(maintitle.get(position));
                 iduser.setText(uidList.get(position));
                 AlertDialog dialog = builder.create();
@@ -114,7 +124,7 @@ public class EmployeesList extends ArrayAdapter<String> {
 
             }
         });
-        titleText.setText(maintitle.get(position));
+        titleText.setText(maintitle.get(position) + "(E " + position + 1 + ")");
         imageView.setImageResource(imgid.get(position));
         subtitleText.setText(subtitle.get(position));
 

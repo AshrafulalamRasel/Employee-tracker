@@ -1,11 +1,9 @@
 package com.itvillageltd.emphoyee.tracker;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -40,15 +38,15 @@ public class EmployeeTaskListActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        task.setOnClickListener(new View.OnClickListener() {
+   /*   task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EmployeeTaskListActivity.this, AssignTaskActivity.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }
-        });
+        });*/
+
         TaskList();
     }
     @Override
@@ -70,8 +68,8 @@ public class EmployeeTaskListActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         //depending upon what datatype youre using caste to it.
-                        String title = (String) snapshot.child("title").getValue();
-                        String description = (String) snapshot.child("description").getValue();
+                        String title = (String) snapshot.child("employeesList").getValue();
+                        String description = (String) snapshot.child("taskList").getValue();
                         String taskStatus = (String) snapshot.child("status").getValue();
 
                         mainName.add(title);
