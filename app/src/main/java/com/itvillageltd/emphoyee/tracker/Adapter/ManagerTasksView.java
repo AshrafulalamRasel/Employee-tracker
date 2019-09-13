@@ -41,7 +41,7 @@ public class ManagerTasksView extends ArrayAdapter<String> {
         TextView title = rowView.findViewById(R.id.task1);
         TextView status = rowView.findViewById(R.id.status);
         status.setText(taskStatus.get(position));
-        title.setText(maintitle.get(position));
+        title.setText(subtitle.get(position));
         if (taskStatus.get(position).equals("running")) {
             status.setTextColor(Color.parseColor("#20be0b"));
         } else if (taskStatus.get(position).equals("finish")) {

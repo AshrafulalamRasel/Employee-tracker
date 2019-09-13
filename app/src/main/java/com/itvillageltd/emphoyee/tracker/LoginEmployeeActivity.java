@@ -36,7 +36,7 @@ class LoginEmployeeActivity extends AppCompatActivity implements View.OnClickLis
     public static final String userEmail = "";
     public static final String TAG = "LOGIN";
     private static final int READ_LOGS = 725;
-    String email, Password;
+    private String email, Password;
     private ImageButton btRegister;
     private TextView tvLogin;
     private EditText Email;
