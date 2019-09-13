@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,8 +64,10 @@ public class HomeActivity extends AppCompatActivity
                 builder.setView(customLayout);
                 Button task = customLayout.findViewById(R.id.task);
                 Button performance = customLayout.findViewById(R.id.performance);
+                Button attendence = customLayout.findViewById(R.id.attendence);
                 task.setVisibility(View.INVISIBLE);
                 performance.setVisibility(View.INVISIBLE);
+                attendence.setVisibility(View.INVISIBLE);
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -241,7 +242,6 @@ public class HomeActivity extends AppCompatActivity
 
                 notificationManager.notify(i /*ID of notification*/, notificationBuilder.build());
             }
-            Toast.makeText(getApplicationContext(), "" + activeStatusList.get(i) + nameTimeList.get(i) + loginTimeList.get(i) + logoutTimeList.get(i), Toast.LENGTH_LONG).show();
         }
     }
 }
