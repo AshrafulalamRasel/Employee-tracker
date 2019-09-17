@@ -1,6 +1,7 @@
 package com.itvillageltd.emphoyee.tracker;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -132,6 +133,9 @@ public class AssignTaskActivity extends AppCompatActivity {
                 mLocationDatabaseReference.child("status").setValue("pending");
                 ToastUtil.show(AssignTaskActivity.this, "Send Successfully");
                 dialog.dismiss();
+                Intent intent = new Intent(AssignTaskActivity.this, SelectTeamMembersActivity.class);
+                intent.putExtra("employeeId", employeeId);
+                startActivity(intent);
             }
         });
     }

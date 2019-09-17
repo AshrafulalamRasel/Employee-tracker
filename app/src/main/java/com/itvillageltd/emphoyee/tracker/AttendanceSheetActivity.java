@@ -14,14 +14,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AttendanceSheetActivity extends AppCompatActivity {
 
     private String employeeId;
-    private ListView checkInTime, checkOutTime;
+    private ListView checkInTime, checkOutTime, workingHour;
     private ArrayList<String> loginTimeList = new ArrayList<>();
     private ArrayList<String> logoutTimeList = new ArrayList<>();
+    private ArrayList<String> workingHourList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,9 @@ public class AttendanceSheetActivity extends AppCompatActivity {
 
         checkInTime = findViewById(R.id.checkinTime);
         checkOutTime = findViewById(R.id.checkOutTime);
+        workingHour = findViewById(R.id.workingHourList);
         employeeId = getIntent().getExtras().getString("employeeId");
+
         Log.e("employeeId", employeeId);
         setTableRow();
     }
@@ -61,6 +67,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                     ArrayAdapter<String> loginAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this,
                             android.R.layout.simple_list_item_1, loginTimeList);
                     checkInTime.setAdapter(loginAdapter);
+
                 }
             }
 
@@ -82,6 +89,7 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                     Log.e("values", String.valueOf(logoutTimeList));
                     ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this, android.R.layout.simple_list_item_1, logoutTimeList);
                     checkOutTime.setAdapter(logoutAdapter);
+                    setWorkingHour();
                 }
             }
 
@@ -90,7 +98,37 @@ public class AttendanceSheetActivity extends AppCompatActivity {
 
             }
         });
+
         dialog.dismiss();
+    }
+
+    private void setWorkingHour() {
+
+        for (int i = 0; i < loginTimeList.size(); i++) {
+            String login = loginTimeList.get(i);
+            String logout = logoutTimeList.get(i);
+
+            if (login == null || logout == null) {
+                workingHourList.add("running");
+            } else {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                try {
+                    Date date1 = format.parse(login);
+                    Date date2 = format.parse(logout);
+                    long difference = date2.getTime() - date1.getTime();
+                    int hours = (int) difference / (1000 * 60 * 60);
+                    long diffMins = difference - hours * (1000 * 60 * 60);
+                    int mins = (int) diffMins / (1000 * 60);
+                    workingHourList.add(hours + " Hours " + mins + " mins");
+                    Log.e("time difference", hours + " Hours " + mins + " mins");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.e("values", String.valueOf(logoutTimeList));
+        ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this, android.R.layout.simple_list_item_1, workingHourList);
+        workingHour.setAdapter(logoutAdapter);
     }
 
     @Override
