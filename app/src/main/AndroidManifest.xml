@@ -61,7 +61,8 @@
             android:value="25.3.1"
             tools:replace="android:value" />
 
-        <activity android:name=".AttendanceSheetActivity"></activity>
+        <activity android:name=".AttendanceSheetActivity" />
+        <activity android:name=".SelectTeamMembersActivity"></activity>
     </application>
 
 </manifest>

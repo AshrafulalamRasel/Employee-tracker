@@ -40,6 +40,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.itvillage.dev.basicutil.ToastUtil;
 import com.itvillageltd.emphoyee.tracker.Adapter.TasksList;
 
 import java.time.LocalDateTime;
@@ -65,6 +66,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
     private Runnable runnable;
     private double lat, longi;
     private ProgressDialog dialog;
+    private Button checkIn, checkOut;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -74,12 +76,35 @@ public class EmployeeHomeActivity extends AppCompatActivity
 
         FirebaseApp.initializeApp(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         profile = findViewById(R.id.profile);
         taskList = (ListView) findViewById(R.id.LogsList);
+        checkIn = findViewById(R.id.checkin);
+        checkOut = findViewById(R.id.checkout);
 
-
+        checkIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                System.out.println(dtf.format(now));
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("login").push().child("time").setValue(dtf.format(now));
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
+                ToastUtil.show(EmployeeHomeActivity.this, "Thank You for your attendee");
+            }
+        });
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                System.out.println(dtf.format(now));
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
+                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
+                ToastUtil.show(EmployeeHomeActivity.this, "Check Out Successful");
+            }
+        });
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -125,11 +150,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
         getLocation();
         TaskList();
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
-        mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("login").push().child("time").setValue(dtf.format(now));
-        mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
+
     }
 
     //    ------------------------ Real Location------------------------------
@@ -202,12 +223,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
             try {
                 firebaseAuth.signOut();
                 Intent intent = new Intent(EmployeeHomeActivity.this, LoginEmployeeActivity.class);
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println(dtf.format(now));
-                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
-                mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
                 startActivity(intent);
 
             } catch (Exception e) {
@@ -237,11 +253,11 @@ public class EmployeeHomeActivity extends AppCompatActivity
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                         /*   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                             LocalDateTime now = LocalDateTime.now();
                             System.out.println(dtf.format(now));
                             mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
-                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
+                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);*/
                             Intent intent = new Intent(EmployeeHomeActivity.this, LoginEmployeeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
                             startActivity(intent);
