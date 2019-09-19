@@ -79,7 +79,7 @@ public class SelectTeamMembersActivity extends AppCompatActivity {
                                         String selectedName = employeeList.get(position);
                                         Toast.makeText(getApplicationContext(), selectedName + " is added", Toast.LENGTH_SHORT).show();
                                         mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee").child(employeeId).child("task").child(taskUid);
-                                        mLocationDatabaseReference.child("team").push().setValue(selectedName);
+                                        mLocationDatabaseReference.child("team").push().child("name").setValue(selectedName);
                                         dialog.dismiss();
                                     }
                                 }
