@@ -196,51 +196,55 @@ public class HomeActivity extends AppCompatActivity
                 intent, PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+
         for (int i = 0; i < activeStatusList.size(); i++) {
-            if (!activeStatusList.get(i)) {
-                NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(this, channelId)
-                                .setSmallIcon(R.drawable.notification)
-                                .setContentTitle(nameTimeList.get(i))
-                                .setContentText("is Logout at " + logoutTimeList.get(i))
-                                .setAutoCancel(true)
-                                .setSound(defaultSoundUri)
-                                .setContentIntent(pendingIntent);
+            if (activeStatusList.get(i) != null) {
+                if (!activeStatusList.get(i)) {
+                    NotificationCompat.Builder notificationBuilder =
+                            new NotificationCompat.Builder(this, channelId)
+                                    .setSmallIcon(R.drawable.notification)
+                                    .setContentTitle(nameTimeList.get(i))
+                                    .setContentText("is Logout at " + logoutTimeList.get(i))
+                                    .setAutoCancel(true)
+                                    .setSound(defaultSoundUri)
+                                    .setContentIntent(pendingIntent);
 
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                // Since android Oreo notification channel is needed.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(channelId,
-                            "Channel human readable employeesList",
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    notificationManager.createNotificationChannel(channel);
+                    // Since android Oreo notification channel is needed.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        NotificationChannel channel = new NotificationChannel(channelId,
+                                "Channel human readable employeesList",
+                                NotificationManager.IMPORTANCE_DEFAULT);
+                        notificationManager.createNotificationChannel(channel);
+                    }
+
+                    notificationManager.notify(i, notificationBuilder.build());
+                } else if (activeStatusList.get(i)) {
+                    NotificationCompat.Builder notificationBuilder =
+                            new NotificationCompat.Builder(this, channelId)
+                                    .setSmallIcon(R.drawable.notification)
+                                    .setContentTitle(nameTimeList.get(i))
+                                    .setContentText("is Login at " + loginTimeList.get(i))
+                                    .setAutoCancel(true)
+                                    .setSound(defaultSoundUri)
+                                    .setContentIntent(pendingIntent);
+
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    // Since android Oreo notification channel is needed.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        NotificationChannel channel = new NotificationChannel(channelId,
+                                "Channel human readable employeesList",
+                                NotificationManager.IMPORTANCE_DEFAULT);
+                        notificationManager.createNotificationChannel(channel);
+                    }
+
+                    notificationManager.notify(i, notificationBuilder.build());
                 }
-
-                notificationManager.notify(i/* ID of notification*/, notificationBuilder.build());
-            } else if (activeStatusList.get(i)) {
-                NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(this, channelId)
-                                .setSmallIcon(R.drawable.notification)
-                                .setContentTitle(nameTimeList.get(i))
-                                .setContentText("is Login at " + loginTimeList.get(i))
-                                .setAutoCancel(true)
-                                .setSound(defaultSoundUri)
-                                .setContentIntent(pendingIntent);
-
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-                // Since android Oreo notification channel is needed.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(channelId,
-                            "Channel human readable employeesList",
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    notificationManager.createNotificationChannel(channel);
-                }
-
-                notificationManager.notify(i /*ID of notification*/, notificationBuilder.build());
             }
         }
     }
