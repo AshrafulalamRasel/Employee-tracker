@@ -119,8 +119,8 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                     int hours = (int) difference / (1000 * 60 * 60);
                     long diffMins = difference - hours * (1000 * 60 * 60);
                     int mins = (int) diffMins / (1000 * 60);
-                    workingHourList.add(hours + " Hours " + mins + " mins");
-                    Log.e("time difference", hours + " Hours " + mins + " mins");
+                    workingHourList.add(hours + " Hrs " + mins + " mins");
+                    Log.e("time difference", hours + " Hrs " + mins + " mins");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
