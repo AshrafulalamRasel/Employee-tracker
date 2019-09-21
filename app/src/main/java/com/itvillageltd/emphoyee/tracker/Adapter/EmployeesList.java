@@ -60,24 +60,25 @@ public class EmployeesList extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
         Button map = rowView.findViewById(R.id.map);
-
-        if (activeStatusList.get(position)) {
-            map.setBackgroundColor(Color.parseColor("#20c153"));
-        } else {
-            map.setBackgroundColor(Color.parseColor("#f2060a"));
-        }
-        map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(view.getContext(), MapsActivity.class);
-                intent.putExtra("lat", String.valueOf(latList.get(position)));
-                intent.putExtra("lng", String.valueOf(longList.get(position)));
-                intent.putExtra("name", maintitle.get(position));
-                context.startActivity(intent);
+        if (activeStatusList.get(position) != null) {
+            if (activeStatusList.get(position)) {
+                map.setBackgroundColor(Color.parseColor("#20c153"));
+            } else {
+                map.setBackgroundColor(Color.parseColor("#f2060a"));
             }
-        });
 
+            map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(view.getContext(), MapsActivity.class);
+                    intent.putExtra("lat", String.valueOf(latList.get(position)));
+                    intent.putExtra("lng", String.valueOf(longList.get(position)));
+                    intent.putExtra("name", maintitle.get(position));
+                    context.startActivity(intent);
+                }
+            });
+        }
         task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
