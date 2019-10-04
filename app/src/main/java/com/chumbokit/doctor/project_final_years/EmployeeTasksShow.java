@@ -21,6 +21,7 @@ public class EmployeeTasksShow extends AppCompatActivity {
     ListView tasklist;
     ArrayList<String> mainName = new ArrayList<>();
     ArrayList<String> subtitle = new ArrayList<>();
+    ArrayList<String> timePick = new ArrayList<>();
     private ProgressDialog dialog;
     private FirebaseUser firebaseUser;
 
@@ -47,11 +48,13 @@ public class EmployeeTasksShow extends AppCompatActivity {
                         //depending upon what datatype youre using caste to it.
                         String title = (String) snapshot.child("title").getValue();
                         String description = (String) snapshot.child("description").getValue();
+                        String getTime = (String) snapshot.child("pickuptime").getValue();
 
                         mainName.add(title);
                         subtitle.add(description);
+                        timePick.add(getTime);
 
-                        TasksList adapter = new TasksList(EmployeeTasksShow.this, mainName, subtitle);
+                        TasksList adapter = new TasksList(EmployeeTasksShow.this, mainName, subtitle, timePick);
 
                         tasklist.setAdapter(adapter);
                         dialog.dismiss();

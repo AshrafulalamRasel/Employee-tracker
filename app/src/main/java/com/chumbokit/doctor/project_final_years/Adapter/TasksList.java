@@ -23,15 +23,17 @@ public class TasksList extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String> maintitle;
     private final ArrayList<String> subtitle;
+    private final ArrayList<String> time;
 
 
-    public TasksList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle) {
+    public TasksList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<String> time) {
         super(context, R.layout.custom_employee_list, maintitle);
         // TODO Auto-generated constructor stub
 
         this.context = context;
         this.maintitle = maintitle;
         this.subtitle = subtitle;
+        this.time = time;
 
     }
 
@@ -39,8 +41,10 @@ public class TasksList extends ArrayAdapter<String> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.custom_task_list, null, true);
         TextView title = rowView.findViewById(R.id.task1);
+        TextView timePick = rowView.findViewById(R.id.timePick);
         CardView details = rowView.findViewById(R.id.details);
-        title.setText(maintitle.get(position));
+        title.setText("Task Name :" + "\t" + maintitle.get(position));
+        timePick.setText("Deadline of task:" + "\t" + time.get(position));
         details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

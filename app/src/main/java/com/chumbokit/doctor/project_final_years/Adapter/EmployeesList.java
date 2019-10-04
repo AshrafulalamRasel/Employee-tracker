@@ -102,5 +102,5 @@ public class EmployeesList extends ArrayAdapter<String> {
 
     }
 
-    ;
+
 }

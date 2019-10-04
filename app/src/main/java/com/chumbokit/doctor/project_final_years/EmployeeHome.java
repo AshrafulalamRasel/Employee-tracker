@@ -43,8 +43,7 @@ import java.util.List;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class EmployeeHome extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class EmployeeHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private CardView profile;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
