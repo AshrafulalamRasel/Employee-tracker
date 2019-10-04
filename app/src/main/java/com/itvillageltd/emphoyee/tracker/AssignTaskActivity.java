@@ -1,15 +1,19 @@
 package com.itvillageltd.emphoyee.tracker;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,7 +25,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.itvillage.dev.basicutil.ToastUtil;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AssignTaskActivity extends AppCompatActivity {
 
@@ -34,6 +43,9 @@ public class AssignTaskActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
     private ProgressDialog dialog;
+    private DatePickerDialog picker;
+    private EditText selectedDate;
+    private String date, dateOfAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +54,8 @@ public class AssignTaskActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        selectedDate = findViewById(R.id.editText1);
+        selectedDate.setInputType(InputType.TYPE_NULL);
 
         employeesList = findViewById(R.id.employeeList);
         taskList = findViewById(R.id.taskList);
@@ -114,6 +128,7 @@ public class AssignTaskActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 taskTitle = parent.getItemAtPosition(position).toString();
+
                 Toast.makeText(parent.getContext(), "Selected Task", Toast.LENGTH_LONG).show();
             }
 
@@ -130,12 +145,49 @@ public class AssignTaskActivity extends AppCompatActivity {
                 mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee").child(employeeId).child("task").push();
                 mLocationDatabaseReference.child("employeesList").setValue(employeeName);
                 mLocationDatabaseReference.child("taskList").setValue(taskTitle);
+                String time = String.valueOf(selectedDate.getText());
+                mLocationDatabaseReference.child("time").setValue(time);
+                Log.d("time pick", String.valueOf(selectedDate.getText()));
+
                 mLocationDatabaseReference.child("status").setValue("pending");
                 ToastUtil.show(AssignTaskActivity.this, "Send Successfully");
                 dialog.dismiss();
                 Intent intent = new Intent(AssignTaskActivity.this, SelectTeamMembersActivity.class);
                 intent.putExtra("employeeId", employeeId);
                 startActivity(intent);
+            }
+        });
+
+        selectedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+
+                picker = new DatePickerDialog(AssignTaskActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                                  int dayOfMonth) {
+
+                                date = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                try {
+                                    Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    String strDate = dateFormat.format(date1);
+                                    dateOfAppointment = strDate;
+                                    selectedDate.setText(strDate);
+                                    Log.d("time ", strDate);
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, year, month, day);
+                picker.show();
             }
         });
     }
