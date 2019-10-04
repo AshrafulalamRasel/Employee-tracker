@@ -54,6 +54,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<String> mainName = new ArrayList<>();
+    ArrayList<String> timedate = new ArrayList<>();
     ArrayList<String> subtitle = new ArrayList<>();
     ArrayList<String> taskIdList = new ArrayList<>();
     private CardView profile;
@@ -287,13 +288,15 @@ public class EmployeeHomeActivity extends AppCompatActivity
                         //depending upon what datatype youre using caste to it.
                         String title = (String) snapshot.child("employeesList").getValue();
                         String description = (String) snapshot.child("taskList").getValue();
+                        String time = (String) snapshot.child("time").getValue();
                         String taskId = snapshot.getKey();
 
                         mainName.add(title);
                         subtitle.add(description);
                         taskIdList.add(taskId);
+                        timedate.add(time);
 
-                        TasksList adapter = new TasksList(EmployeeHomeActivity.this, mainName, subtitle, taskIdList, firebaseUser.getUid());
+                        TasksList adapter = new TasksList(EmployeeHomeActivity.this, mainName, subtitle, taskIdList, timedate, firebaseUser.getUid());
 
                         taskList.setAdapter(adapter);
                         dialog.dismiss();

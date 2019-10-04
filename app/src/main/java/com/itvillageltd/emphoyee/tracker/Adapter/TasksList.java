@@ -30,13 +30,15 @@ import java.util.ArrayList;
 public class TasksList extends ArrayAdapter<String> {
     private final Activity context;
     private final ArrayList<String> maintitle;
+    private final ArrayList<String> timedate;
     private final ArrayList<String> subtitle;
     private final ArrayList<String> taskIdList;
     private final String uid;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
     private ProgressDialog dialog;
-    public TasksList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<String> taskIdList,String uid) {
+
+    public TasksList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<String> taskIdList, ArrayList<String> timedate, String uid) {
         super(context, R.layout.custom_employee_list, maintitle);
         // TODO Auto-generated constructor stub
 
@@ -44,6 +46,7 @@ public class TasksList extends ArrayAdapter<String> {
         this.maintitle = maintitle;
         this.subtitle = subtitle;
         this.taskIdList = taskIdList;
+        this.timedate = timedate;
         this.uid = uid;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee").child(uid).child("task");
@@ -55,10 +58,12 @@ public class TasksList extends ArrayAdapter<String> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.custom_task_list, null, true);
         final TextView title = rowView.findViewById(R.id.task1);
+        final TextView time = rowView.findViewById(R.id.timedate);
         CardView details = rowView.findViewById(R.id.details);
         final Button finsih=rowView.findViewById(R.id.finsih);
         final Button start=rowView.findViewById(R.id.start);
         title.setText(subtitle.get(position));
+        time.setText("Deadline line of this task:" + " " + timedate.get(position));
 
         finsih.setOnClickListener(new View.OnClickListener() {
             @Override
