@@ -116,7 +116,7 @@ class LoginEmployeeActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void userSign() {
-        String empolyeePassword = "employee";
+        final String empolyeePassword = "employee";
         email = Email.getText().toString().trim();
         Password = (password.getText() + empolyeePassword).toString().trim();
         if (TextUtils.isEmpty(email)) {

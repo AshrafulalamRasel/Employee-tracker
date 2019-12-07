@@ -38,15 +38,6 @@ public class EmployeeTaskListActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-   /*   task.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EmployeeTaskListActivity.this, AssignTaskActivity.class);
-                intent.putExtra("uid", uid);
-                startActivity(intent);
-            }
-        });*/
-
         TaskList();
     }
     @Override

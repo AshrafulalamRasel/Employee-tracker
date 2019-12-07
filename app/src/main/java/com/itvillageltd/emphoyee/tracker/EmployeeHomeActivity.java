@@ -53,10 +53,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class EmployeeHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    ArrayList<String> mainName = new ArrayList<>();
-    ArrayList<String> timedate = new ArrayList<>();
-    ArrayList<String> subtitle = new ArrayList<>();
-    ArrayList<String> taskIdList = new ArrayList<>();
+
     private CardView profile;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
@@ -68,6 +65,11 @@ public class EmployeeHomeActivity extends AppCompatActivity
     private double lat, longi;
     private ProgressDialog dialog;
     private Button checkIn, checkOut;
+    private ArrayList<String> mainName = new ArrayList<>();
+    private ArrayList<String> timedate = new ArrayList<>();
+    private ArrayList<String> subtitle = new ArrayList<>();
+    private ArrayList<String> taskIdList = new ArrayList<>();
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -89,7 +91,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println(dtf.format(now));
+
                 mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("login").push().child("time").setValue(dtf.format(now));
                 mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(true);
                 ToastUtil.show(EmployeeHomeActivity.this, "Thank You for your attendee");
@@ -100,7 +102,7 @@ public class EmployeeHomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                System.out.println(dtf.format(now));
+
                 mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
                 mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);
                 ToastUtil.show(EmployeeHomeActivity.this, "Check Out Successful");
@@ -154,7 +156,11 @@ public class EmployeeHomeActivity extends AppCompatActivity
 
     }
 
-    //    ------------------------ Real Location------------------------------
+    /*
+    *
+    * Real Location Tracking
+    *
+    * */
     private void getLocation() {
 
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -187,23 +193,24 @@ public class EmployeeHomeActivity extends AppCompatActivity
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
-    /*----------------------------------------------Toolbar Code---------------------------------------------------------------*/
+    /*
+    *
+    * Toolbar Code
+    *
+    * */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.employee_home, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -254,13 +261,10 @@ public class EmployeeHomeActivity extends AppCompatActivity
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     public void onClick(DialogInterface arg0, int arg1) {
                         try {
-                         /*   DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                            LocalDateTime now = LocalDateTime.now();
-                            System.out.println(dtf.format(now));
-                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activetime").child("logout").push().child("time").setValue(dtf.format(now));
-                            mLocationDatabaseReference.child(firebaseUser.getUid()).child("activeStatus").setValue(false);*/
-                            Intent intent = new Intent(EmployeeHomeActivity.this, LoginEmployeeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
+                            Intent intent = new Intent(EmployeeHomeActivity.this,
+                                    LoginEmployeeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             firebaseAuth.signOut();
                         } catch (Exception e) {
@@ -280,7 +284,8 @@ public class EmployeeHomeActivity extends AppCompatActivity
         dialog.show();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("employee").child(firebaseUser.getUid()).child("task").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("employee").child(firebaseUser.getUid()).child("task")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -296,7 +301,8 @@ public class EmployeeHomeActivity extends AppCompatActivity
                         taskIdList.add(taskId);
                         timedate.add(time);
 
-                        TasksList adapter = new TasksList(EmployeeHomeActivity.this, mainName, subtitle, taskIdList, timedate, firebaseUser.getUid());
+                        TasksList adapter = new TasksList(EmployeeHomeActivity.this,
+                                mainName, subtitle, taskIdList, timedate, firebaseUser.getUid());
 
                         taskList.setAdapter(adapter);
                         dialog.dismiss();

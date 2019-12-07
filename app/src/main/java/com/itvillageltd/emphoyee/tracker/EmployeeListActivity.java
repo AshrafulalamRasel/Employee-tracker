@@ -74,7 +74,8 @@ public class EmployeeListActivity extends AppCompatActivity {
                         mainName.add(name);
                         subtitle.add(name);
                         imgid.add(R.drawable.prescription);
-                        EmployeesList adapter = new EmployeesList(EmployeeListActivity.this, mainName, subtitle, imgid, latList, longList, uidList, activeStatusList);
+                        EmployeesList adapter = new EmployeesList(EmployeeListActivity.this,
+                                mainName, subtitle, imgid, latList, longList, uidList, activeStatusList);
                         list = (ListView) findViewById(R.id.List);
                         list.setAdapter(adapter);
                         dialog.dismiss();

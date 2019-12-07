@@ -42,7 +42,9 @@ public class AttendanceSheetActivity extends AppCompatActivity {
         workingHour = findViewById(R.id.workingHourList);
         employeeId = getIntent().getExtras().getString("employeeId");
 
-        Log.e("employeeId", employeeId);
+        /*
+        * Attendee sheet show using by table
+        * */
         setTableRow();
     }
 
@@ -53,7 +55,8 @@ public class AttendanceSheetActivity extends AppCompatActivity {
         dialog.setIndeterminate(true);
         dialog.show();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee").child(employeeId).child("activetime");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee")
+                .child(employeeId).child("activetime");
         ref.child("login").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -63,17 +66,16 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                         String loginTime = (String) snapshot.child("time").getValue();
                         loginTimeList.add(loginTime);
                     }
-                    Log.e("values", String.valueOf(loginTimeList));
-                    ArrayAdapter<String> loginAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this,
+                    ArrayAdapter<String> loginAdapter = new ArrayAdapter<String>(
+                            AttendanceSheetActivity.this,
                             android.R.layout.simple_list_item_1, loginTimeList);
                     checkInTime.setAdapter(loginAdapter);
-
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("DatabaseError", databaseError.getMessage());
             }
         });
 
@@ -87,15 +89,17 @@ public class AttendanceSheetActivity extends AppCompatActivity {
                         logoutTimeList.add(logoutTime);
                     }
                     Log.e("values", String.valueOf(logoutTimeList));
-                    ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this, android.R.layout.simple_list_item_1, logoutTimeList);
+                    ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(
+                            AttendanceSheetActivity.this,
+                            android.R.layout.simple_list_item_1, logoutTimeList);
+
                     checkOutTime.setAdapter(logoutAdapter);
                     setWorkingHour();
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("DatabaseError", databaseError.getMessage());
             }
         });
 
@@ -127,7 +131,9 @@ public class AttendanceSheetActivity extends AppCompatActivity {
             }
         }
         Log.e("values", String.valueOf(logoutTimeList));
-        ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(AttendanceSheetActivity.this, android.R.layout.simple_list_item_1, workingHourList);
+        ArrayAdapter<String> logoutAdapter = new ArrayAdapter<String>(
+                AttendanceSheetActivity.this,
+                android.R.layout.simple_list_item_1, workingHourList);
         workingHour.setAdapter(logoutAdapter);
     }
 

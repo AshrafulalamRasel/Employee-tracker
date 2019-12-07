@@ -34,18 +34,17 @@ import java.util.Date;
 
 public class AssignTaskActivity extends AppCompatActivity {
 
-    Button send;
-    String employeeId, taskTitle, employeeName;
-    Spinner employeesList, taskList;
-    ArrayList<String> employeeNameList = new ArrayList<>();
-    ArrayList<String> employeeIdList = new ArrayList<>();
-    ArrayList<String> taskArrayList = new ArrayList<>();
+    private Button send;
+    private String employeeId, taskTitle, employeeName, date;
+    private Spinner employeesList, taskList;
+    private ArrayList<String> employeeNameList = new ArrayList<>();
+    private ArrayList<String> employeeIdList = new ArrayList<>();
+    private ArrayList<String> taskArrayList = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mLocationDatabaseReference;
     private ProgressDialog dialog;
     private DatePickerDialog picker;
     private EditText selectedDate;
-    private String date, dateOfAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,7 @@ public class AssignTaskActivity extends AppCompatActivity {
         dialog.setMessage("Loading in please wait...");
         dialog.setIndeterminate(true);
         dialog.show();
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("employee");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -87,13 +87,12 @@ public class AssignTaskActivity extends AppCompatActivity {
                         employeeIdList.add(uid);
                         dialog.dismiss();
                     }
-                    Log.e("Employee List", String.valueOf(employeeNameList));
+
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("DatabaseError", databaseError.getMessage());
             }
         });
 
@@ -103,6 +102,7 @@ public class AssignTaskActivity extends AppCompatActivity {
         employeesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 employeeName = parent.getItemAtPosition(position).toString();
                 employeeId = employeeIdList.get(position);
                 Toast.makeText(parent.getContext(), "Selected Employee", Toast.LENGTH_LONG).show();
@@ -110,6 +110,7 @@ public class AssignTaskActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                Log.e("onNothingSelected", parent.toString());
             }
         });
 
@@ -134,6 +135,7 @@ public class AssignTaskActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                Log.e("onNothingSelected", parent.toString());
             }
         });
 
@@ -178,7 +180,6 @@ public class AssignTaskActivity extends AppCompatActivity {
                                     Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                                     String strDate = dateFormat.format(date1);
-                                    dateOfAppointment = strDate;
                                     selectedDate.setText(strDate);
                                     Log.d("time ", strDate);
 

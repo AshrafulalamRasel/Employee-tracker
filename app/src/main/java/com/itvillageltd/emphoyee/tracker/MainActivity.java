@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
 
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            // Sending Email to Dashboard Activity using intent.
             intent.putExtra(userEmail, email);
             startActivity(intent);
             Toast.makeText(this, "Successfully Login!!!!!", Toast.LENGTH_SHORT).show();

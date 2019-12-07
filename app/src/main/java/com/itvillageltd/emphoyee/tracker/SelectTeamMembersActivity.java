@@ -60,7 +60,9 @@ public class SelectTeamMembersActivity extends AppCompatActivity {
                         dialog.dismiss();
 
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(SelectTeamMembersActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, employeeList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            SelectTeamMembersActivity.this,
+                            android.R.layout.simple_list_item_1, android.R.id.text1, employeeList);
                     listView.setAdapter(adapter);
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,7 +70,8 @@ public class SelectTeamMembersActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                             dialog.show();
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                            ref.child("employee").child(employeeId).child("task").addListenerForSingleValueEvent(new ValueEventListener() {
+                            ref.child("employee").child(employeeId).child("task")
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.getValue() != null) {
@@ -77,9 +80,15 @@ public class SelectTeamMembersActivity extends AppCompatActivity {
 
                                         }
                                         String selectedName = employeeList.get(position);
-                                        Toast.makeText(getApplicationContext(), selectedName + " is added", Toast.LENGTH_SHORT).show();
-                                        mLocationDatabaseReference = mFirebaseDatabase.getReference().child("employee").child(employeeId).child("task").child(taskUid);
-                                        mLocationDatabaseReference.child("team").push().child("name").setValue(selectedName);
+                                        Toast.makeText(getApplicationContext(),
+                                                selectedName + " is added", Toast.LENGTH_SHORT).show();
+                                        mLocationDatabaseReference = mFirebaseDatabase.getReference()
+                                                .child("employee").child(employeeId).child("task")
+                                                .child(taskUid);
+                                        mLocationDatabaseReference.child("team")
+                                                .push()
+                                                .child("name")
+                                                .setValue(selectedName);
                                         dialog.dismiss();
                                     }
                                 }
@@ -104,7 +113,8 @@ public class SelectTeamMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(SelectTeamMembersActivity.this, HomeActivity.class));
+                startActivity(new Intent(SelectTeamMembersActivity.this,
+                        HomeActivity.class));
                 ToastUtil.show(SelectTeamMembersActivity.this, "Send Successfully");
             }
         });

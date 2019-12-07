@@ -37,7 +37,9 @@ public class EmployeesList extends ArrayAdapter<String> {
     private final ArrayList<String> uidList;
     private final ArrayList<Boolean> activeStatusList;
 
-    public EmployeesList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle, ArrayList<Integer> imgid, ArrayList<Double> latList, ArrayList<Double> longList, ArrayList<String> uidList, ArrayList<Boolean> activeStatusList) {
+    public EmployeesList(Activity context, ArrayList<String> maintitle, ArrayList<String> subtitle,
+                         ArrayList<Integer> imgid, ArrayList<Double> latList, ArrayList<Double> longList,
+                         ArrayList<String> uidList, ArrayList<Boolean> activeStatusList) {
         super(context, R.layout.custom_employee_list, maintitle);
         // TODO Auto-generated constructor stub
 
